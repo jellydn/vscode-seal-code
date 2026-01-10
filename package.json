@@ -250,6 +250,17 @@
             "nitpick": { "type": "string", "description": "Color for Nitpick category" },
             "note": { "type": "string", "description": "Color for Note category" }
           }
+        },
+        "vscode-code-notes.aiTool": {
+          "type": "string",
+          "enum": ["claude", "opencode", "custom"],
+          "default": "claude",
+          "description": "AI CLI tool to use for sending review comments"
+        },
+        "vscode-code-notes.aiToolCommand": {
+          "type": "string",
+          "default": "",
+          "description": "Custom command path for AI tool (used when aiTool is 'custom')"
         }
       }
     }

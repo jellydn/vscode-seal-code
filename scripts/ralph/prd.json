@@ -1,255 +1,154 @@
 {
-  "project": "Code Review Annotation Extension",
-  "branchName": "ralph/code-review-extension",
-  "description": "VSCode extension for inline code review annotations with categories, gutter icons, sidebar panel, and export to Markdown/HTML",
+  "project": "Code Notes - AI Review",
+  "branchName": "ralph/ai-review",
+  "description": "Send review comments from .codereview/ to AI terminal tools (Claude Code or OpenCode) with plan mode for validation",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Initialize review storage structure",
-      "description": "As a developer, I want the extension to create a .codereview/ directory to store annotations locally.",
+      "title": "Add AI tool configuration settings",
+      "description": "As a developer, I want to configure which AI CLI tool to use so I can choose my preferred AI assistant.",
       "acceptanceCriteria": [
-        "Creates .codereview/ folder in workspace root on first comment",
-        "Stores comments in .codereview/comments.json as JSON array",
-        "Adds .codereview/ to .gitignore suggestion via optional prompt",
+        "Add vscode-code-notes.aiTool setting with enum: 'claude', 'opencode', 'custom'",
+        "Add vscode-code-notes.aiToolCommand setting for custom command path (string)",
+        "Default aiTool to 'claude'",
+        "Run pnpm run update to regenerate meta.ts",
         "Typecheck passes"
       ],
       "priority": 1,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-002",
-      "title": "Define comment data types and storage service",
-      "description": "As a developer, I need TypeScript types and a service to read/write comments.",
+      "title": "Add prompt template configuration",
+      "description": "As a developer, I want to define prompt templates so AI receives consistent review requests.",
       "acceptanceCriteria": [
-        "Comment interface with: id, filePath, startLine, endLine, text, category, createdAt, updatedAt",
-        "Category type: 'bug' | 'question' | 'suggestion' | 'nitpick' | 'note'",
-        "CommentStorage class with load(), save(), add(), update(), delete() methods",
-        "Uses workspace.fs for file operations",
-        "Generates UUID for comment IDs",
+        "Add vscode-code-notes.promptTemplates setting as object",
+        "Default template named 'review': 'Review these code review comments and validate the architectural decisions. Analyze and suggest improvements, do not implement.\\n\\n{{comments}}'",
+        "Templates support {{comments}} placeholder for formatted comments",
+        "Templates support {{files}} placeholder for affected file list",
+        "Run pnpm run update to regenerate meta.ts",
         "Typecheck passes"
       ],
       "priority": 2,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-003",
-      "title": "Add comment command for single line",
-      "description": "As a developer, I want to add a comment on a specific line via context menu or command palette.",
+      "title": "Create formatCommentsForAI helper function",
+      "description": "As a developer, I need a function to format comments into structured text for AI input.",
       "acceptanceCriteria": [
-        "Register command 'codeReview.addComment'",
-        "Right-click context menu shows 'Add Review Comment'",
-        "Command palette includes 'Code Review: Add Comment'",
-        "Keyboard shortcut Ctrl+Shift+R (Cmd+Shift+R on Mac)",
-        "Input box prompts for comment text",
-        "Quick pick shows categories: Bug, Question, Suggestion, Nitpick, Note",
-        "Comment saved with current line number",
+        "Create src/aiReview.ts with formatCommentsForAI(comments: Comment[]) function",
+        "Format each comment as: [category] file:startLine-endLine - text",
+        "Group comments by file path",
+        "Return object with { formattedComments: string, files: string[] }",
         "Typecheck passes"
       ],
       "priority": 3,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-004",
-      "title": "Add comment on line range selection",
-      "description": "As a developer, I want to select multiple lines and add a comment spanning that range.",
+      "title": "Create buildAICommand helper function",
+      "description": "As a developer, I need a function to build the correct CLI command for each AI tool.",
       "acceptanceCriteria": [
-        "When text is selected, context menu shows 'Add Review Comment'",
-        "Comment stored with startLine and endLine from selection",
-        "Single line selection sets startLine === endLine",
+        "Add buildAICommand(tool: string, customCommand: string, prompt: string) to src/aiReview.ts",
+        "For claude: return 'claude -p --permission-mode plan \"prompt\"'",
+        "For opencode: return 'opencode run --agent plan \"prompt\"'",
+        "For custom: return customCommand with prompt appended",
+        "Escape double quotes in prompt",
         "Typecheck passes"
       ],
       "priority": 4,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-005",
-      "title": "Display gutter icons for comments",
-      "description": "As a developer, I want to see icons in the gutter for lines with comments.",
+      "title": "Implement sendToAI command",
+      "description": "As a developer, I want to send all my review comments to AI for comprehensive validation.",
       "acceptanceCriteria": [
-        "Gutter icon appears on lines with comments",
-        "Icon color varies by category: Bug=red, Question=blue, Suggestion=green, Nitpick=orange, Note=gray",
-        "Create SVG icons for each category",
-        "Hovering gutter icon shows comment preview in tooltip",
+        "Add sendToAI command in src/commands.ts",
+        "Read aiTool and aiToolCommand from config",
+        "Get all comments from storage",
+        "Show error if no comments exist",
+        "Format comments using formatCommentsForAI",
+        "Apply default template with placeholders replaced",
+        "Create terminal with window.createTerminal()",
+        "Send command to terminal with terminal.sendText()",
+        "Show terminal with terminal.show()",
+        "Register command codeReview.sendToAI",
         "Typecheck passes"
       ],
       "priority": 5,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-006",
-      "title": "Add inline text decorations",
-      "description": "As a developer, I want inline visual cues showing comment category and preview.",
+      "title": "Add sendToAI command to package.json",
+      "description": "As a developer, I want the Send to AI command accessible from command palette and sidebar.",
       "acceptanceCriteria": [
-        "Line background subtly tinted by category color",
-        "After-line decoration shows truncated comment text (max 50 chars)",
-        "Uses TextEditorDecorationType for decorations",
-        "Decorations update in real-time when comments change",
+        "Add codeReview.sendToAI command with title 'Send to AI Review' and icon $(sparkle)",
+        "Add to view/title menu for codeReviewComments view",
+        "Add keyboard shortcut Ctrl+Shift+A (Cmd+Shift+A on Mac)",
+        "Run pnpm run update to regenerate meta.ts",
         "Typecheck passes"
       ],
       "priority": 6,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-007",
-      "title": "Create sidebar tree view for comments",
-      "description": "As a developer, I want a sidebar panel listing all comments grouped by file.",
+      "title": "Implement sendSelectedToAI command with QuickPick",
+      "description": "As a developer, I want to select specific comments and send only those to AI.",
       "acceptanceCriteria": [
-        "Register activity bar icon for 'Code Review'",
-        "TreeDataProvider implementation for comment tree",
-        "Tree view grouped by file (parent nodes)",
-        "Each comment shows: category icon, line number, truncated text",
+        "Add sendSelectedToAI command in src/commands.ts",
+        "Show QuickPick with canPickMany: true",
+        "List all comments grouped by file (label: truncated text, description: file:line)",
+        "Filter selected comments and send to AI",
+        "Register command codeReview.sendSelectedToAI",
+        "Add command to package.json with title 'Send Selected to AI'",
         "Typecheck passes"
       ],
       "priority": 7,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-008",
-      "title": "Navigate to comment from sidebar",
-      "description": "As a developer, I want to click a comment in sidebar to navigate to that line.",
+      "title": "Implement sendCategoryToAI command",
+      "description": "As a developer, I want to send comments filtered by category for focused review.",
       "acceptanceCriteria": [
-        "Clicking comment item opens the file",
-        "Cursor moves to the comment's startLine",
-        "Line is revealed in center of editor",
+        "Add sendCategoryToAI command in src/commands.ts",
+        "Show QuickPick to select category (bug, question, suggestion, nitpick, note)",
+        "Filter comments by selected category",
+        "Send filtered comments to AI",
+        "Register command codeReview.sendCategoryToAI",
+        "Add command to package.json with title 'Send Category to AI'",
         "Typecheck passes"
       ],
       "priority": 8,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-009",
-      "title": "Edit existing comment",
-      "description": "As a developer, I want to edit a comment's text or category after creating it.",
+      "title": "Add prompt template picker to sendToAI",
+      "description": "As a developer, I want to choose which prompt template to use before sending.",
       "acceptanceCriteria": [
-        "Right-click comment in sidebar shows 'Edit Comment'",
-        "Register command 'codeReview.editComment'",
-        "Input box pre-filled with current text",
-        "Category picker pre-selects current category",
-        "updatedAt timestamp updated on save",
-        "Decorations refresh after edit",
+        "Show QuickPick with available templates from config before sending",
+        "Include 'Custom...' option that opens InputBox for one-time prompt",
+        "Apply selected template with {{comments}} and {{files}} replaced",
+        "Update sendToAI, sendSelectedToAI, sendCategoryToAI to use template picker",
         "Typecheck passes"
       ],
       "priority": 9,
-      "passes": true,
+      "passes": false,
       "notes": ""
-    },
-    {
-      "id": "US-010",
-      "title": "Delete comment",
-      "description": "As a developer, I want to delete comments I no longer need.",
-      "acceptanceCriteria": [
-        "Right-click comment in sidebar shows 'Delete Comment'",
-        "Register command 'codeReview.deleteComment'",
-        "Confirmation prompt before deletion",
-        "Gutter icon and decorations removed immediately",
-        "Tree view refreshes after deletion",
-        "Typecheck passes"
-      ],
-      "priority": 10,
-      "passes": true,
-      "notes": ""
-    },
-    {
-      "id": "US-011",
-      "title": "Filter comments by category in sidebar",
-      "description": "As a developer, I want to filter the sidebar to show only specific categories.",
-      "acceptanceCriteria": [
-        "Add filter button in sidebar header",
-        "Quick pick shows: All, Bug, Question, Suggestion, Nitpick, Note",
-        "Tree view updates to show only matching comments",
-        "Filter state persists during session",
-        "Typecheck passes"
-      ],
-      "priority": 11,
-      "passes": true,
-      "notes": "Implemented filter command with view/title menu button"
-    },
-    {
-      "id": "US-012",
-      "title": "Filter comments by file",
-      "description": "As a developer, I want to show comments only for the current file.",
-      "acceptanceCriteria": [
-        "Add toggle button: 'Show All Files' / 'Current File Only'",
-        "When 'Current File Only', tree shows only active editor's file",
-        "Toggle updates tree view immediately",
-        "Typecheck passes"
-      ],
-      "priority": 12,
-      "passes": true,
-      "notes": "Already implemented in US-010 thread - toggleFileFilter command with file icon button"
-    },
-    {
-      "id": "US-013",
-      "title": "Export comments to Markdown",
-      "description": "As a developer, I want to export all comments to a Markdown file.",
-      "acceptanceCriteria": [
-        "Register command 'codeReview.exportMarkdown'",
-        "Output file: .codereview/review-report.md",
-        "Comments grouped by file with line numbers",
-        "Shows category, comment text, timestamp",
-        "Includes code snippet (3 lines before/after commented lines)",
-        "Code snippets in fenced code blocks with language syntax",
-        "Typecheck passes"
-      ],
-      "priority": 13,
-      "passes": true,
-      "notes": "Implemented exportMarkdown command with code snippets and language detection"
-    },
-    {
-      "id": "US-014",
-      "title": "Export comments to HTML",
-      "description": "As a developer, I want to export comments to a styled HTML report.",
-      "acceptanceCriteria": [
-        "Register command 'codeReview.exportHtml'",
-        "Output file: .codereview/review-report.html",
-        "Styled with category colors",
-        "Includes vscode:// protocol links to file:line",
-        "Includes code snippet (3 lines before/after)",
-        "Code snippets with inline CSS syntax highlighting",
-        "Typecheck passes"
-      ],
-      "priority": 14,
-      "passes": true,
-      "notes": "Implemented with CDN-hosted highlight.js for syntax highlighting"
-    },
-    {
-      "id": "US-015",
-      "title": "Clear all comments command",
-      "description": "As a developer, I want to clear all comments when starting fresh.",
-      "acceptanceCriteria": [
-        "Register command 'codeReview.clearAll'",
-        "Confirmation dialog shows count of comments to delete",
-        "Removes all entries from comments.json",
-        "Clears all decorations and gutter icons",
-        "Tree view refreshes to empty state",
-        "Typecheck passes"
-      ],
-      "priority": 15,
-      "passes": true,
-      "notes": "Implemented clearAll command with confirmation dialog and proper cleanup"
-    },
-    {
-      "id": "US-016",
-      "title": "Handle file rename/move events",
-      "description": "As a developer, I want comments to follow files when renamed or moved.",
-      "acceptanceCriteria": [
-        "Watch for workspace.onDidRenameFiles events",
-        "Update filePath in comments.json for affected comments",
-        "Decorations reapply to new file location",
-        "Tree view updates with new file paths",
-        "Typecheck passes"
-      ],
-      "priority": 16,
-      "passes": true,
-      "notes": "Implemented updateFilePaths method in CommentStorage and handleFileRename in commands.ts"
     }
   ]
 }
