@@ -104,6 +104,7 @@ export class CommentTreeDataProvider implements TreeDataProvider<CommentTreeItem
   private categoryFilter: CommentCategory | null = null
   private showCurrentFileOnly = false
   private currentFilePath: string | null = null
+  private filenameFilter: string | null = null
 
   refresh(): void {
     this._onDidChangeTreeData.fire()
@@ -138,6 +139,15 @@ export class CommentTreeDataProvider implements TreeDataProvider<CommentTreeItem
     return this.currentFilePath
   }
 
+  setFilenameFilter(filename: string | null): void {
+    this.filenameFilter = filename
+    this.refresh()
+  }
+
+  getFilenameFilter(): string | null {
+    return this.filenameFilter
+  }
+
   getTreeItem(element: CommentTreeItem): TreeItem {
     return element
   }
@@ -164,6 +174,10 @@ export class CommentTreeDataProvider implements TreeDataProvider<CommentTreeItem
 
     if (this.showCurrentFileOnly && this.currentFilePath) {
       comments = comments.filter(c => c.filePath === this.currentFilePath)
+    }
+
+    if (this.filenameFilter) {
+      comments = comments.filter(c => c.filePath === this.filenameFilter)
     }
 
     const commentsByFile = new Map<string, Comment[]>()

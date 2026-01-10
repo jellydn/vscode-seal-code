@@ -41,17 +41,20 @@
       {
         "command": "codeReview.addComment",
         "title": "Add Review Comment",
-        "category": "Code Review"
+        "category": "Code Review",
+        "icon": "$(add)"
       },
       {
         "command": "codeReview.editComment",
         "title": "Edit Comment",
-        "category": "Code Review"
+        "category": "Code Review",
+        "icon": "$(edit)"
       },
       {
         "command": "codeReview.deleteComment",
         "title": "Delete Comment",
-        "category": "Code Review"
+        "category": "Code Review",
+        "icon": "$(trash)"
       },
       {
         "command": "codeReview.filterByCategory",
@@ -82,6 +85,22 @@
         "title": "Clear All Comments",
         "category": "Code Review",
         "icon": "$(trash)"
+      },
+      {
+        "command": "codeReview.filterByFilename",
+        "title": "Filter by Filename",
+        "category": "Code Review",
+        "icon": "$(search)"
+      },
+      {
+        "command": "codeReview.editCommentById",
+        "title": "Edit Comment",
+        "category": "Code Review"
+      },
+      {
+        "command": "codeReview.deleteCommentById",
+        "title": "Delete Comment",
+        "category": "Code Review"
       }
     ],
     "viewsContainers": {
@@ -121,6 +140,14 @@
         {
           "command": "codeReview.deleteComment",
           "when": "false"
+        },
+        {
+          "command": "codeReview.editCommentById",
+          "when": "false"
+        },
+        {
+          "command": "codeReview.deleteCommentById",
+          "when": "false"
         }
       ],
       "view/item/context": [
@@ -137,14 +164,39 @@
       ],
       "view/title": [
         {
+          "command": "codeReview.addComment",
+          "when": "view == codeReviewComments",
+          "group": "navigation@1"
+        },
+        {
           "command": "codeReview.filterByCategory",
           "when": "view == codeReviewComments",
-          "group": "navigation"
+          "group": "navigation@2"
         },
         {
           "command": "codeReview.toggleFileFilter",
           "when": "view == codeReviewComments",
           "group": "navigation"
+        },
+        {
+          "command": "codeReview.filterByFilename",
+          "when": "view == codeReviewComments",
+          "group": "navigation"
+        },
+        {
+          "command": "codeReview.exportMarkdown",
+          "when": "view == codeReviewComments",
+          "group": "export@1"
+        },
+        {
+          "command": "codeReview.exportHtml",
+          "when": "view == codeReviewComments",
+          "group": "export@2"
+        },
+        {
+          "command": "codeReview.clearAll",
+          "when": "view == codeReviewComments",
+          "group": "danger"
         }
       ]
     },
@@ -154,6 +206,12 @@
         "key": "ctrl+shift+r",
         "mac": "cmd+shift+r",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "codeReview.deleteComment",
+        "key": "delete",
+        "mac": "backspace",
+        "when": "focusedView == codeReviewComments && viewItem == comment"
       }
     ],
     "configuration": {

@@ -1,7 +1,7 @@
 import type { DecorationOptions, TextEditor, TextEditorDecorationType } from 'vscode'
 import type { Comment, CommentCategory } from './types'
 import * as path from 'node:path'
-import { window, workspace } from 'vscode'
+import { MarkdownString, window, workspace } from 'vscode'
 import { CommentStorage } from './CommentStorage'
 import { config } from './config'
 
@@ -178,9 +178,21 @@ export async function updateDecorations(editor: TextEditor): Promise<void> {
   }
 }
 
-function createHoverMessage(comment: Comment): string {
+function createHoverMessage(comment: Comment): MarkdownString {
   const categoryLabel = getCategoryLabel(comment.category)
-  return `**${categoryLabel}** (Line ${comment.startLine}${comment.startLine !== comment.endLine ? `-${comment.endLine}` : ''})\n\n${comment.text}`
+  const md = new MarkdownString()
+  md.isTrusted = true
+  md.supportThemeIcons = true
+
+  md.appendMarkdown(`**${categoryLabel}** (Line ${comment.startLine}${comment.startLine !== comment.endLine ? `-${comment.endLine}` : ''})\n\n`)
+  md.appendMarkdown(`${comment.text}\n\n`)
+  md.appendMarkdown(`---\n\n`)
+
+  const editArgs = encodeURIComponent(JSON.stringify({ id: comment.id }))
+  const deleteArgs = encodeURIComponent(JSON.stringify({ id: comment.id }))
+  md.appendMarkdown(`[$(edit) Edit](command:codeReview.editCommentById?${editArgs}) | [$(trash) Delete](command:codeReview.deleteCommentById?${deleteArgs})`)
+
+  return md
 }
 
 function getCategoryLabel(category: CommentCategory): string {

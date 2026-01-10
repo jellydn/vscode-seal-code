@@ -20,140 +20,140 @@ A VSCode extension that enables developers to annotate code with inline comments
 **Description:** As a developer, I want the extension to create a `.codereview/` directory to store my annotations locally.
 
 **Acceptance Criteria:**
-- [ ] Creates `.codereview/` folder in workspace root on first comment
-- [ ] Stores comments in `.codereview/comments.json`
-- [ ] Adds `.codereview/` to `.gitignore` suggestion (optional prompt)
-- [ ] Typecheck passes
+- [x] Creates `.codereview/` folder in workspace root on first comment
+- [x] Stores comments in `.codereview/comments.json`
+- [x] Adds `.codereview/` to `.gitignore` suggestion (optional prompt)
+- [x] Typecheck passes
 
 ### US-002: Add Comment on Single Line
 **Description:** As a developer, I want to add a comment on a specific line so I can note issues or questions.
 
 **Acceptance Criteria:**
-- [ ] Right-click context menu shows "Add Review Comment"
-- [ ] Command palette includes "Code Review: Add Comment"
-- [ ] Keyboard shortcut `Ctrl+Shift+R` (or `Cmd+Shift+R` on Mac) triggers add comment
-- [ ] Input box prompts for comment text
-- [ ] Category picker shows: Bug, Question, Suggestion, Nitpick, Note
-- [ ] Comment saved with file path, line number, text, category, timestamp
-- [ ] Typecheck passes
+- [x] Right-click context menu shows "Add Review Comment"
+- [x] Command palette includes "Code Review: Add Comment"
+- [x] Keyboard shortcut `Ctrl+Shift+R` (or `Cmd+Shift+R` on Mac) triggers add comment
+- [x] Input box prompts for comment text
+- [x] Category picker shows: Bug, Question, Suggestion, Nitpick, Note
+- [x] Comment saved with file path, line number, text, category, timestamp
+- [x] Typecheck passes
 
 ### US-003: Add Comment on Line Range
 **Description:** As a developer, I want to select multiple lines and add a comment spanning that range.
 
 **Acceptance Criteria:**
-- [ ] When text is selected, context menu shows "Add Review Comment"
-- [ ] Comment stored with startLine and endLine
-- [ ] Visual decoration spans entire selected range
-- [ ] Typecheck passes
+- [x] When text is selected, context menu shows "Add Review Comment"
+- [x] Comment stored with startLine and endLine
+- [x] Visual decoration spans entire selected range
+- [x] Typecheck passes
 
 ### US-004: Display Gutter Icons
 **Description:** As a developer, I want to see icons in the gutter for lines with comments so I can quickly identify annotated code.
 
 **Acceptance Criteria:**
-- [ ] Gutter icon appears on lines with comments
-- [ ] Icon color/style varies by category (e.g., red for Bug, blue for Question)
-- [ ] Hovering gutter icon shows comment preview tooltip
-- [ ] Typecheck passes
+- [x] Gutter icon appears on lines with comments
+- [x] Icon color/style varies by category (e.g., red for Bug, blue for Question)
+- [x] Hovering gutter icon shows comment preview tooltip
+- [x] Typecheck passes
 
 ### US-005: Inline Text Decorations
 **Description:** As a developer, I want inline visual cues showing comment category/preview.
 
 **Acceptance Criteria:**
-- [ ] Line background subtly tinted by category color
-- [ ] After-line decoration shows truncated comment text
-- [ ] Decoration style configurable (on/off, colors)
-- [ ] Typecheck passes
+- [x] Line background subtly tinted by category color
+- [x] After-line decoration shows truncated comment text
+- [x] Decoration style configurable (on/off, colors)
+- [x] Typecheck passes
 
 ### US-006: Sidebar Panel - Comment List
 **Description:** As a developer, I want a sidebar panel listing all comments so I can navigate and manage them.
 
 **Acceptance Criteria:**
-- [ ] Activity bar icon for "Code Review"
-- [ ] Tree view grouped by file
-- [ ] Each comment shows: category icon, line number, truncated text
-- [ ] Clicking comment navigates to that line in editor
-- [ ] Typecheck passes
+- [x] Activity bar icon for "Code Review"
+- [x] Tree view grouped by file
+- [x] Each comment shows: category icon, line number, truncated text
+- [x] Clicking comment navigates to that line in editor
+- [x] Typecheck passes
 
 ### US-007: Edit Existing Comment
 **Description:** As a developer, I want to edit a comment's text or category after creating it.
 
 **Acceptance Criteria:**
-- [ ] Right-click comment in sidebar shows "Edit Comment"
-- [ ] Clicking gutter icon allows editing
-- [ ] Can update text and/or category
-- [ ] Timestamp updated to modification time
-- [ ] Typecheck passes
+- [x] Right-click comment in sidebar shows "Edit Comment"
+- [x] Clicking gutter icon allows editing
+- [x] Can update text and/or category
+- [x] Timestamp updated to modification time
+- [x] Typecheck passes
 
 ### US-008: Delete Comment
 **Description:** As a developer, I want to delete comments I no longer need.
 
 **Acceptance Criteria:**
-- [ ] Right-click comment in sidebar shows "Delete Comment"
-- [ ] Keyboard shortcut `Delete` works when comment selected in sidebar
-- [ ] Confirmation prompt before deletion (configurable)
-- [ ] Gutter icon and decorations removed immediately
-- [ ] Typecheck passes
+- [x] Right-click comment in sidebar shows "Delete Comment"
+- [x] Keyboard shortcut `Delete` works when comment selected in sidebar
+- [x] Confirmation prompt before deletion (configurable)
+- [x] Gutter icon and decorations removed immediately
+- [x] Typecheck passes
 
 ### US-009: Filter Comments by Category
 **Description:** As a developer, I want to filter the sidebar to show only specific categories.
 
 **Acceptance Criteria:**
-- [ ] Filter dropdown in sidebar header
-- [ ] Options: All, Bug, Question, Suggestion, Nitpick, Note
-- [ ] Filter state persists during session
-- [ ] Count badge shows filtered results
-- [ ] Typecheck passes
+- [x] Filter dropdown in sidebar header
+- [x] Options: All, Bug, Question, Suggestion, Nitpick, Note
+- [x] Filter state persists during session
+- [x] Count badge shows filtered results
+- [x] Typecheck passes
 
 ### US-010: Filter Comments by File
 **Description:** As a developer, I want to show comments only for the current file or specific files.
 
 **Acceptance Criteria:**
-- [ ] Toggle: "Show All Files" / "Current File Only"
-- [ ] Quick filter text input to search by filename
-- [ ] Typecheck passes
+- [x] Toggle: "Show All Files" / "Current File Only"
+- [x] Quick filter text input to search by filename
+- [x] Typecheck passes
 
 ### US-011: Export to Markdown
 **Description:** As a developer, I want to export all comments to a Markdown file for PR description or documentation.
 
 **Acceptance Criteria:**
-- [ ] Command "Code Review: Export to Markdown"
-- [ ] Output file: `.codereview/review-report.md`
-- [ ] Grouped by file with line numbers
-- [ ] Shows category, comment text, timestamp
-- [ ] Includes code snippet (3 lines before/after commented lines)
-- [ ] Code snippets in fenced code blocks with language syntax
-- [ ] Typecheck passes
+- [x] Command "Code Review: Export to Markdown"
+- [x] Output file: `.codereview/review-report.md`
+- [x] Grouped by file with line numbers
+- [x] Shows category, comment text, timestamp
+- [x] Includes code snippet (3 lines before/after commented lines)
+- [x] Code snippets in fenced code blocks with language syntax
+- [x] Typecheck passes
 
 ### US-012: Export to HTML
 **Description:** As a developer, I want to export comments to a styled HTML report.
 
 **Acceptance Criteria:**
-- [ ] Command "Code Review: Export to HTML"
-- [ ] Output file: `.codereview/review-report.html`
-- [ ] Styled with category colors
-- [ ] Includes links to file:line (vscode:// protocol)
-- [ ] Includes code snippet (3 lines before/after commented lines)
-- [ ] Code snippets with syntax highlighting (use highlight.js or similar)
-- [ ] Typecheck passes
+- [x] Command "Code Review: Export to HTML"
+- [x] Output file: `.codereview/review-report.html`
+- [x] Styled with category colors
+- [x] Includes links to file:line (vscode:// protocol)
+- [x] Includes code snippet (3 lines before/after commented lines)
+- [x] Code snippets with syntax highlighting (use highlight.js or similar)
+- [x] Typecheck passes
 
 ### US-013: Clear All Comments
 **Description:** As a developer, I want to clear all comments when starting fresh.
 
 **Acceptance Criteria:**
-- [ ] Command "Code Review: Clear All Comments"
-- [ ] Confirmation dialog with count of comments to delete
-- [ ] Removes all entries from comments.json
-- [ ] Clears all decorations and gutter icons
-- [ ] Typecheck passes
+- [x] Command "Code Review: Clear All Comments"
+- [x] Confirmation dialog with count of comments to delete
+- [x] Removes all entries from comments.json
+- [x] Clears all decorations and gutter icons
+- [x] Typecheck passes
 
 ### US-014: Comment Persistence on File Rename/Move
 **Description:** As a developer, I want comments to follow files when renamed or moved.
 
 **Acceptance Criteria:**
-- [ ] Watch for file rename/move events
-- [ ] Update file paths in comments.json
-- [ ] Decorations reapply to new location
-- [ ] Typecheck passes
+- [x] Watch for file rename/move events
+- [x] Update file paths in comments.json
+- [x] Decorations reapply to new location
+- [x] Typecheck passes
 
 ## Functional Requirements
 

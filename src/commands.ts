@@ -104,19 +104,22 @@ export async function navigateToComment(comment: Comment): Promise<void> {
   editor.revealRange(range, 1)
 }
 
-export async function editComment(arg: Comment | CommentItemLike): Promise<void> {
+export async function editCommentById(arg: { id: string }): Promise<void> {
   if (!await ensureInitialized()) {
     return
   }
 
-  const comment = extractComment(arg)
   const storage = getStorage()
-  const existingComment = storage.getById(comment.id)
+  const existingComment = storage.getById(arg.id)
   if (!existingComment) {
     window.showErrorMessage('Comment not found')
     return
   }
 
+  await editCommentInternal(existingComment)
+}
+
+async function editCommentInternal(existingComment: Comment): Promise<void> {
   const text = await window.showInputBox({
     prompt: 'Edit your review comment',
     placeHolder: 'Type your comment here...',
@@ -136,12 +139,62 @@ export async function editComment(arg: Comment | CommentItemLike): Promise<void>
     return
   }
 
-  await storage.update(comment.id, { text, category: categoryItem.value })
+  await getStorage().update(existingComment.id, { text, category: categoryItem.value })
 
   await refreshAllDecorations()
   refreshTreeView()
 
   window.showInformationMessage('Comment updated')
+}
+
+export async function editComment(arg: Comment | CommentItemLike): Promise<void> {
+  if (!await ensureInitialized()) {
+    return
+  }
+
+  const comment = extractComment(arg)
+  const storage = getStorage()
+  const existingComment = storage.getById(comment.id)
+  if (!existingComment) {
+    window.showErrorMessage('Comment not found')
+    return
+  }
+
+  await editCommentInternal(existingComment)
+}
+
+async function deleteCommentInternal(existingComment: Comment): Promise<void> {
+  const confirmation = await window.showWarningMessage(
+    `Delete comment "${existingComment.text.slice(0, 50)}${existingComment.text.length > 50 ? '...' : ''}"?`,
+    { modal: true },
+    'Delete',
+  )
+
+  if (confirmation !== 'Delete') {
+    return
+  }
+
+  await getStorage().delete(existingComment.id)
+
+  await refreshAllDecorations()
+  refreshTreeView()
+
+  window.showInformationMessage('Comment deleted')
+}
+
+export async function deleteCommentById(arg: { id: string }): Promise<void> {
+  if (!await ensureInitialized()) {
+    return
+  }
+
+  const storage = getStorage()
+  const existingComment = storage.getById(arg.id)
+  if (!existingComment) {
+    window.showErrorMessage('Comment not found')
+    return
+  }
+
+  await deleteCommentInternal(existingComment)
 }
 
 export async function deleteComment(arg: Comment | CommentItemLike): Promise<void> {
@@ -157,22 +210,7 @@ export async function deleteComment(arg: Comment | CommentItemLike): Promise<voi
     return
   }
 
-  const confirmation = await window.showWarningMessage(
-    `Delete comment "${existingComment.text.slice(0, 50)}${existingComment.text.length > 50 ? '...' : ''}"?`,
-    { modal: true },
-    'Delete',
-  )
-
-  if (confirmation !== 'Delete') {
-    return
-  }
-
-  await storage.delete(comment.id)
-
-  await refreshAllDecorations()
-  refreshTreeView()
-
-  window.showInformationMessage('Comment deleted')
+  await deleteCommentInternal(existingComment)
 }
 
 const FILTER_ITEMS: { label: string, value: CommentCategory | null, description: string }[] = [
@@ -245,6 +283,44 @@ export function updateCurrentFilePath(): void {
   else {
     provider.setCurrentFilePath(null)
   }
+}
+
+export async function filterByFilename(): Promise<void> {
+  const provider = getTreeDataProvider()
+  if (!provider) {
+    return
+  }
+
+  const storage = getStorage()
+  const comments = storage.getAll()
+  const uniqueFiles = [...new Set(comments.map(c => c.filePath))].sort()
+
+  if (uniqueFiles.length === 0) {
+    window.showInformationMessage('No comments to filter')
+    return
+  }
+
+  const currentFilter = provider.getFilenameFilter()
+
+  const items = [
+    { label: '$(list-flat) All Files', value: null as string | null, description: 'Show comments from all files' },
+    ...uniqueFiles.map(file => ({
+      label: `$(file) ${path.basename(file)}`,
+      value: file,
+      description: file,
+    })),
+  ]
+
+  const selected = await window.showQuickPick(items, {
+    placeHolder: currentFilter ? `Current: ${currentFilter}` : 'Filter by filename',
+    title: 'File Filter',
+  })
+
+  if (selected === undefined) {
+    return
+  }
+
+  provider.setFilenameFilter(selected.value)
 }
 
 export async function handleFileRename(oldUri: Uri, newUri: Uri): Promise<void> {
@@ -431,6 +507,8 @@ export async function exportMarkdown(): Promise<void> {
   const outputPath = Uri.joinPath(dir, 'review-report.md')
   await workspace.fs.writeFile(outputPath, new TextEncoder().encode(lines.join('\n')))
 
+  const doc = await workspace.openTextDocument(outputPath)
+  await window.showTextDocument(doc)
   window.showInformationMessage(`Exported ${comments.length} comments to review-report.md`)
 }
 
@@ -566,6 +644,8 @@ export async function exportHtml(): Promise<void> {
   const outputPath = Uri.joinPath(dir, 'review-report.html')
   await workspace.fs.writeFile(outputPath, new TextEncoder().encode(htmlParts.join('\n')))
 
+  const doc = await workspace.openTextDocument(outputPath)
+  await window.showTextDocument(doc)
   window.showInformationMessage(`Exported ${comments.length} comments to review-report.html`)
 }
 
@@ -574,8 +654,11 @@ export function registerCommands(): void {
   commands.registerCommand('codeReview.navigateToComment', navigateToComment)
   commands.registerCommand('codeReview.editComment', editComment)
   commands.registerCommand('codeReview.deleteComment', deleteComment)
+  commands.registerCommand('codeReview.editCommentById', editCommentById)
+  commands.registerCommand('codeReview.deleteCommentById', deleteCommentById)
   commands.registerCommand('codeReview.filterByCategory', filterByCategory)
   commands.registerCommand('codeReview.toggleFileFilter', toggleFileFilter)
+  commands.registerCommand('codeReview.filterByFilename', filterByFilename)
   commands.registerCommand('codeReview.exportMarkdown', exportMarkdown)
   commands.registerCommand('codeReview.exportHtml', exportHtml)
   commands.registerCommand('codeReview.clearAll', clearAll)

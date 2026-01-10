@@ -12,4 +12,4 @@ node_modules
 temp
 src/generated
 .env
-.codereview/comments.json
+.codereview/	
