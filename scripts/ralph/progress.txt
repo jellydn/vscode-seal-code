@@ -115,3 +115,19 @@ Thread: https://ampcode.com/threads/T-019ba947-1575-70c0-971e-60b526ff81d8
   - Reuse existing config access patterns from sendToAI and sendSelectedToAI
   - Category filtering is simple array filter on the category property
 ---
+
+## Sun Jan 11 2026 - US-009
+Thread: https://ampcode.com/threads/T-019ba948-caea-77bd-9876-71f139a0afe0
+- Created pickPromptTemplate helper function with QuickPick for template selection
+- Shows all configured templates plus "Custom..." option for one-time prompts
+- Custom option opens InputBox for user to enter a custom prompt
+- Templates support {{comments}} and {{files}} placeholders which are replaced
+- Updated sendToAI, sendSelectedToAI, and sendCategoryToAI to use the picker
+- Extracted template selection into shared helper to reduce code duplication
+- Typecheck and lint pass
+- Files changed: src/commands.ts
+- **Learnings for future iterations:**
+  - Use `value: null` pattern in QuickPick items to detect "special" options like Custom
+  - Helper functions can accept formatted data and return the final prompt after user selection
+  - QuickPick can be followed by InputBox for progressive disclosure of options
+---
