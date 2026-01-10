@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.code-notes"><img src="https://img.shields.io/visual-studio-marketplace/v/jellydn.code-notes.svg?color=blue&label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="VS Code Marketplace" /></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.code-notes"><img src="https://img.shields.io/visual-studio-marketplace/d/jellydn.code-notes.svg?color=blue" alt="Downloads" /></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.code-notes"><img src="https://img.shields.io/visual-studio-marketplace/r/jellydn.code-notes.svg?color=blue" alt="Rating" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.vscode-code-notes"><img src="https://img.shields.io/visual-studio-marketplace/v/jellydn.vscode-code-notes.svg?color=blue&label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="VS Code Marketplace" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.vscode-code-notes"><img src="https://img.shields.io/visual-studio-marketplace/d/jellydn.vscode-code-notes.svg?color=blue" alt="Downloads" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.vscode-code-notes"><img src="https://img.shields.io/visual-studio-marketplace/r/jellydn.vscode-code-notes.svg?color=blue" alt="Rating" /></a>
   <a href="https://kermanx.github.io/reactive-vscode/"><img src="https://img.shields.io/badge/made_with-reactive--vscode-%23007ACC?style=flat&labelColor=%23229863" alt="Made with reactive-vscode" /></a>
 </p>
 
@@ -44,7 +44,7 @@
 
 ## 🚀 Quick Start
 
-1. **Install** the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=jellydn.code-notes)
+1. **Install** the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=jellydn.vscode-code-notes)
 2. **Select code** in any file
 3. Press <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (Mac) or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (Windows/Linux)
 4. **Choose a category** and add your comment
@@ -125,13 +125,13 @@ pnpm run dev
 pnpm run test
 ```
 
-## 💖 Sponsors
+## 💖 Show your support
 
-<p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/jellydn/static/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/jellydn/static/sponsors.png' alt="Sponsors"/>
-  </a>
-</p>
+Give a ⭐️ if this project helped you!
+
+[![kofi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/dunghd)
+[![paypal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/dunghd)
+[![buymeacoffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/dunghd)
 
 ## 📄 License
 
