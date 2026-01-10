@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="#ff9800">
-  <circle cx="8" cy="8" r="6"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <!-- Magnifying glass for detail-oriented feedback -->
+  <circle cx="7" cy="7" r="4.5" stroke="#ff9800" stroke-width="2" fill="none"/>
+  <line x1="10" y1="10" x2="13.5" y2="13.5" stroke="#ff9800" stroke-width="2" stroke-linecap="round"/>
+  <!-- Small detail dot inside -->
+  <circle cx="7" cy="7" r="1" fill="#ff9800"/>
 </svg>

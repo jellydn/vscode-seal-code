@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="#2196f3">
-  <circle cx="8" cy="8" r="6"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <!-- Question mark in circle -->
+  <circle cx="8" cy="8" r="7" fill="#2196f3"/>
+  <path d="M8 4C6.34 4 5 5.2 5 6.75V7.5H6.5V6.75C6.5 5.92 7.17 5.5 8 5.5C8.83 5.5 9.5 5.92 9.5 6.75C9.5 7.5 8.5 7.5 8.5 8.5V9.5H10V8.5C10 6.75 11 6.5 11 6.75C11 5.2 9.66 4 8 4Z" fill="white"/>
+  <circle cx="8.5" cy="12.5" r="1" fill="white"/>
 </svg>

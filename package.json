@@ -24,7 +24,7 @@
     "Other"
   ],
   "main": "./dist/index.cjs",
-  "icon": "res/icon.png",
+  "icon": "res/icon-512.png",
   "files": [
     "LICENSE.md",
     "dist/*",
@@ -108,7 +108,7 @@
         {
           "id": "codeReview",
           "title": "Code Review",
-          "icon": "res/icon.svg"
+          "icon": "res/icon-activity.svg"
         }
       ]
     },
