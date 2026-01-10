@@ -32,3 +32,22 @@ export function formatCommentsForAI(comments: Comment[]): FormattedCommentsResul
     files,
   }
 }
+
+function escapeDoubleQuotes(str: string): string {
+  return str.replace(/"/g, '\\"')
+}
+
+export function buildAICommand(tool: string, customCommand: string, prompt: string): string {
+  const escapedPrompt = escapeDoubleQuotes(prompt)
+
+  switch (tool) {
+    case 'claude':
+      return `claude -p --permission-mode plan "${escapedPrompt}"`
+    case 'opencode':
+      return `opencode run --agent plan "${escapedPrompt}"`
+    case 'custom':
+      return `${customCommand} "${escapedPrompt}"`
+    default:
+      return `claude -p --permission-mode plan "${escapedPrompt}"`
+  }
+}

@@ -26,3 +26,15 @@ Thread: https://ampcode.com/threads/T-019ba92c-780d-762d-ae0a-60ee9c1de733
   - Use `additionalProperties` in JSON schema when defining object settings with arbitrary keys
   - Default values for object settings are validated against the schema automatically
 ---
+
+## Sun Jan 11 2026 - US-003
+Thread: https://ampcode.com/threads/T-019ba92e-8145-7132-a52b-0de509c32dbf
+- Created src/aiReview.ts with formatCommentsForAI(comments: Comment[]) function
+- Function groups comments by file path and formats each as: [category] file:startLine-endLine - text
+- Returns object with { formattedComments: string, files: string[] }
+- Typecheck and lint pass
+- Files changed: src/aiReview.ts
+- **Learnings for future iterations:**
+  - The Comment type is defined in src/types.ts with filePath, startLine, endLine, text, category fields
+  - When formatting line ranges, use single line number if startLine === endLine
+---
