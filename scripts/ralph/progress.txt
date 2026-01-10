@@ -13,3 +13,16 @@ Thread: https://ampcode.com/threads/T-019ba92a-f5be-70cc-a827-74679e8f64c9
   - Use `pnpm run update` after modifying package.json contributes.configuration to regenerate meta.ts
   - vscode-ext-gen auto-generates typed settings access in meta.ts
 ---
+
+## Sun Jan 11 2026 - US-002
+Thread: https://ampcode.com/threads/T-019ba92c-780d-762d-ae0a-60ee9c1de733
+- Added `vscode-code-notes.promptTemplates` setting as object with default 'review' template
+- Template supports `{{comments}}` and `{{files}}` placeholders for variable substitution
+- Used `additionalProperties` schema to allow arbitrary named templates
+- Ran `pnpm run update` to regenerate meta.ts
+- Typecheck and lint pass
+- Files changed: package.json, src/generated/meta.ts
+- **Learnings for future iterations:**
+  - Use `additionalProperties` in JSON schema when defining object settings with arbitrary keys
+  - Default values for object settings are validated against the schema automatically
+---
