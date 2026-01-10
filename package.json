@@ -2,7 +2,7 @@
   "publisher": "jellydn",
   "name": "vscode-code-notes",
   "displayName": "Code Notes - Review Comments",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "packageManager": "pnpm@10.28.0",
   "description": "",
