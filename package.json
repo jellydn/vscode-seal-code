@@ -37,11 +37,163 @@
     "onStartupFinished"
   ],
   "contributes": {
-    "commands": [],
+    "commands": [
+      {
+        "command": "codeReview.addComment",
+        "title": "Add Review Comment",
+        "category": "Code Review"
+      },
+      {
+        "command": "codeReview.editComment",
+        "title": "Edit Comment",
+        "category": "Code Review"
+      },
+      {
+        "command": "codeReview.deleteComment",
+        "title": "Delete Comment",
+        "category": "Code Review"
+      },
+      {
+        "command": "codeReview.filterByCategory",
+        "title": "Filter by Category",
+        "category": "Code Review",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "codeReview.toggleFileFilter",
+        "title": "Toggle Current File Only",
+        "category": "Code Review",
+        "icon": "$(file)"
+      },
+      {
+        "command": "codeReview.exportMarkdown",
+        "title": "Export to Markdown",
+        "category": "Code Review",
+        "icon": "$(markdown)"
+      },
+      {
+        "command": "codeReview.exportHtml",
+        "title": "Export to HTML",
+        "category": "Code Review",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "codeReview.clearAll",
+        "title": "Clear All Comments",
+        "category": "Code Review",
+        "icon": "$(trash)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codeReview",
+          "title": "Code Review",
+          "icon": "res/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "codeReview": [
+        {
+          "id": "codeReviewComments",
+          "name": "Comments"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codeReview.addComment",
+          "group": "codeReview",
+          "when": "editorTextFocus"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "codeReview.addComment",
+          "when": "editorIsOpen"
+        },
+        {
+          "command": "codeReview.editComment",
+          "when": "false"
+        },
+        {
+          "command": "codeReview.deleteComment",
+          "when": "false"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "codeReview.editComment",
+          "when": "view == codeReviewComments && viewItem == comment",
+          "group": "inline"
+        },
+        {
+          "command": "codeReview.deleteComment",
+          "when": "view == codeReviewComments && viewItem == comment",
+          "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "codeReview.filterByCategory",
+          "when": "view == codeReviewComments",
+          "group": "navigation"
+        },
+        {
+          "command": "codeReview.toggleFileFilter",
+          "when": "view == codeReviewComments",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "codeReview.addComment",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorTextFocus"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "code-notes",
-      "properties": {}
+      "properties": {
+        "code-notes.showInlineDecorations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show inline text decorations (after-line text preview)"
+        },
+        "code-notes.showGutterIcons": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show gutter icons for comments"
+        },
+        "code-notes.showLineBackground": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show colored background on commented lines"
+        },
+        "code-notes.categoryColors": {
+          "type": "object",
+          "default": {
+            "bug": "#f44336",
+            "question": "#2196f3",
+            "suggestion": "#4caf50",
+            "nitpick": "#ff9800",
+            "note": "#9e9e9e"
+          },
+          "description": "Custom colors for each comment category",
+          "properties": {
+            "bug": { "type": "string", "description": "Color for Bug category" },
+            "question": { "type": "string", "description": "Color for Question category" },
+            "suggestion": { "type": "string", "description": "Color for Suggestion category" },
+            "nitpick": { "type": "string", "description": "Color for Nitpick category" },
+            "note": { "type": "string", "description": "Color for Note category" }
+          }
+        }
+      }
     }
   },
   "scripts": {

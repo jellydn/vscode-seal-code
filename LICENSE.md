@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2022 Huynh Duc Dung <https://github.com/jellydn>
+Copyright (c) 2026 Huynh Duc Dung <https://github.com/jellydn>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
