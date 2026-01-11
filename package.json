@@ -9,13 +9,13 @@
   "author": "Huynh Duc Dung <dung@productsway.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/jellydn",
-  "homepage": "https://github.com/jellydn/code-notes#readme",
+  "homepage": "https://github.com/jellydn/vscode-seal-code#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jellydn/code-notes"
+    "url": "https://github.com/jellydn/vscode-seal-code"
   },
   "bugs": {
-    "url": "https://github.com/jellydn/code-notes/issues"
+    "url": "https://github.com/jellydn/vscode-seal-code/issues"
   },
   "sponsor": {
     "url": "https://github.com/sponsors/jellydn"

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="res/icon-512.png" width="128" height="128" alt="SealCode Logo">
+  <img src="https://raw.githubusercontent.com/jellydn/vscode-seal-code/main/res/icon-512.png" width="128" height="128" alt="SealCode Logo">
 </p>
 
 <h1 align="center">SealCode</h1>
@@ -12,6 +12,7 @@
   <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.seal-code"><img src="https://img.shields.io/visual-studio-marketplace/v/jellydn.seal-code.svg?color=blue&label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="VS Code Marketplace" /></a>
   <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.seal-code"><img src="https://img.shields.io/visual-studio-marketplace/d/jellydn.seal-code.svg?color=blue" alt="Downloads" /></a>
   <a href="https://marketplace.visualstudio.com/items?itemName=jellydn.seal-code"><img src="https://img.shields.io/visual-studio-marketplace/r/jellydn.seal-code.svg?color=blue" alt="Rating" /></a>
+  <a href="https://open-vsx.org/extension/jellydn/seal-code"><img src="https://img.shields.io/open-vsx/v/jellydn/seal-code?color=purple&label=Open%20VSX" alt="Open VSX" /></a>
   <a href="https://kermanx.github.io/reactive-vscode/"><img src="https://img.shields.io/badge/made_with-reactive--vscode-%23007ACC?style=flat&labelColor=%23229863" alt="Made with reactive-vscode" /></a>
 </p>
 
