@@ -57,6 +57,15 @@
 - Framework: **vitest**
 - Import: `import { describe, expect, it } from 'vitest'`
 - Structure: `describe('feature', () => { it('should do X', () => { ... }) })`
+- Coverage: Comprehensive test suite covering storage, AI integration, filtering, and data processing
+- Test Files:
+  - `test/unit/aiTools.test.ts` - AI tool validation and default models
+  - `test/unit/aiConfig.test.ts` - AI configuration and validation logic
+  - `test/unit/aiReview.test.ts` - Comment formatting for AI export
+  - `test/unit/commandBuilder.test.ts` - Command building and interpolation
+  - `test/unit/filtering.test.ts` - Comment filtering and sorting logic
+  - `test/helpers/` - Test utilities and mock helpers
+  - `test/fixtures/` - Test data factories
 
 ### Formatting
 - No semicolons (style preference from @antfu/eslint-config)

@@ -13,3 +13,4 @@ temp
 src/generated
 .env
 .codereview
+.claude/settings.local.json
