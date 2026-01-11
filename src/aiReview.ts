@@ -1,4 +1,10 @@
+import type { AiToolType } from './aiTools'
 import type { Comment } from './types'
+import { window, workspace } from 'vscode'
+import { getToolConfig, isToolConfigValid } from './aiConfig'
+import { AI_TOOLS, isValidAiTool } from './aiTools'
+import { buildCommand, getEffectiveModel } from './commandBuilder'
+import { configs } from './generated/meta'
 
 export interface FormattedCommentsResult {
   formattedComments: string
@@ -33,21 +39,35 @@ export function formatCommentsForAI(comments: Comment[]): FormattedCommentsResul
   }
 }
 
-function escapeDoubleQuotes(str: string): string {
-  return str.replace(/"/g, '\\"')
-}
-
 export function buildAICommand(tool: string, customCommand: string, prompt: string): string {
-  const escapedPrompt = escapeDoubleQuotes(prompt)
-
-  switch (tool) {
-    case 'claude':
-      return `claude --print --model haiku --permission-mode plan "${escapedPrompt}"`
-    case 'opencode':
-      return `opencode run --model opencode/big-pickle "${escapedPrompt}"`
-    case 'custom':
-      return `${customCommand} "${escapedPrompt}"`
-    default:
-      return `opencode run --model opencode/big-pickle "${escapedPrompt}"`
+  if (!isValidAiTool(tool)) {
+    window.showErrorMessage(`Invalid AI tool: ${tool}. Using opencode as fallback.`)
+    tool = AI_TOOLS.OPENCODE
   }
+
+  const aiTool = tool as AiToolType
+
+  if (!isToolConfigValid(aiTool, customCommand)) {
+    window.showWarningMessage(
+      'Custom AI tool command is empty. Using opencode as fallback.',
+    )
+    return buildCommand(AI_TOOLS.OPENCODE, prompt)
+  }
+
+  const toolConfig = getToolConfig(aiTool)
+
+  if (toolConfig.securityWarning) {
+    window.showInformationMessage(
+      'Security Note: Using custom AI command. Ensure command is trusted and safe.',
+      'I Understand',
+    )
+  }
+
+  const config = workspace.getConfiguration()
+  const configuredModel = aiTool === AI_TOOLS.CLAUDE
+    ? config.get<string>(configs.aiToolClaudeModel.key, configs.aiToolClaudeModel.default)
+    : config.get<string>(configs.aiToolOpenCodeModel.key, configs.aiToolOpenCodeModel.default)
+  const model = getEffectiveModel(aiTool, configuredModel)
+
+  return buildCommand(aiTool, prompt, model, customCommand)
 }

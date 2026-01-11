@@ -290,6 +290,16 @@
           "default": "",
           "description": "Custom command path for AI tool (used when aiTool is 'custom', e.g., 'ccs glm')"
         },
+        "vscode-code-notes.aiToolClaudeModel": {
+          "type": "string",
+          "default": "haiku",
+          "description": "Claude model to use (e.g., haiku, sonnet, opus)"
+        },
+        "vscode-code-notes.aiToolOpenCodeModel": {
+          "type": "string",
+          "default": "opencode/big-pickle",
+          "description": "OpenCode model to use (e.g., opencode/big-pickle, opencode/claude)"
+        },
         "vscode-code-notes.promptTemplates": {
           "type": "object",
           "default": {

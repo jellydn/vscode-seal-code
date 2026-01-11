@@ -98,6 +98,8 @@
 | `vscode-code-notes.categoryColors`        | Custom colors for each comment category                                                                             | `object`  | `{"bug":"#f44336","question":"#2196f3","suggestion":"#4caf50","nitpick":"#ff9800","note":"#9e9e9e"}` |
 | `vscode-code-notes.aiTool`                | AI CLI tool to use for sending review comments                                                                      | `string`  | `"opencode"`                                                                                         |
 | `vscode-code-notes.aiToolCommand`         | Custom command path for AI tool (used when aiTool is 'custom', e.g., 'ccs glm')                                     | `string`  | `""`                                                                                                 |
+| `vscode-code-notes.aiToolClaudeModel`     | Claude model to use (e.g., haiku, sonnet, opus)                                                                     | `string`  | `"haiku"`                                                                                            |
+| `vscode-code-notes.aiToolOpenCodeModel`   | OpenCode model to use (e.g., opencode/big-pickle, opencode/claude)                                                  | `string`  | `"opencode/big-pickle"`                                                                              |
 | `vscode-code-notes.promptTemplates`       | Named prompt templates for AI review. Use {{comments}} for formatted comments and {{files}} for affected file list. | `object`  | See package.json                                                                                     |
 
 <!-- configs -->

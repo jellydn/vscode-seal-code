@@ -696,9 +696,18 @@ async function pickPromptTemplate(formattedComments: string, files: string[]): P
     template = selected.value
   }
 
+  const commentsSection = formattedComments
+    .split('\n')
+    .map(line => `  ${line}`)
+    .join('\n')
+
+  const filesSection = files
+    .map(file => `  - ${file}`)
+    .join('\n')
+
   return template
-    .replace(/\{\{comments\}\}/g, formattedComments)
-    .replace(/\{\{files\}\}/g, files.join('\n'))
+    .replace(/\{\{comments\}\}/g, `<user_comments>\n${commentsSection}\n</user_comments>`)
+    .replace(/\{\{files\}\}/g, `<affected_files>\n${filesSection}\n</affected_files>`)
 }
 
 export async function sendToAI(): Promise<void> {
@@ -706,9 +715,11 @@ export async function sendToAI(): Promise<void> {
     return
   }
 
-  const storage = getStorage()
-  const comments = storage.getAll()
+  const comments = getStorage().getAll()
+  await executeAIReview(comments)
+}
 
+async function executeAIReview(comments: Comment[], context: string = ''): Promise<void> {
   if (comments.length === 0) {
     window.showErrorMessage('No comments to send to AI')
     return
@@ -731,7 +742,7 @@ export async function sendToAI(): Promise<void> {
   terminal.sendText(command)
   terminal.show()
 
-  showCommentsSentMessage(comments.length)
+  showCommentsSentMessage(comments.length, context)
 }
 
 export async function sendSelectedToAI(): Promise<void> {
@@ -780,25 +791,7 @@ export async function sendSelectedToAI(): Promise<void> {
   }
 
   const selectedComments = selectedItems.map(item => item.comment)
-
-  const { formattedComments, files } = formatCommentsForAI(selectedComments)
-  const prompt = await pickPromptTemplate(formattedComments, files)
-
-  if (!prompt) {
-    return
-  }
-
-  const config = workspace.getConfiguration()
-  const aiTool = config.get<string>(configs.aiTool.key, configs.aiTool.default)
-  const aiToolCommand = config.get<string>(configs.aiToolCommand.key, configs.aiToolCommand.default)
-
-  const command = buildAICommand(aiTool, aiToolCommand, prompt)
-
-  const terminal = window.createTerminal('AI Review')
-  terminal.sendText(command)
-  terminal.show()
-
-  showCommentsSentMessage(selectedComments.length, 'selected')
+  await executeAIReview(selectedComments, 'selected')
 }
 
 export async function sendCategoryToAI(): Promise<void> {
@@ -806,23 +799,14 @@ export async function sendCategoryToAI(): Promise<void> {
     return
   }
 
-  const storage = getStorage()
-  const allComments = storage.getAll()
+  const allComments = getStorage().getAll()
 
   if (allComments.length === 0) {
     window.showErrorMessage('No comments to send to AI')
     return
   }
 
-  const categoryItems: { label: string, value: CommentCategory }[] = [
-    { label: '$(bug) Bug', value: 'bug' },
-    { label: '$(question) Question', value: 'question' },
-    { label: '$(lightbulb) Suggestion', value: 'suggestion' },
-    { label: '$(comment) Nitpick', value: 'nitpick' },
-    { label: '$(note) Note', value: 'note' },
-  ]
-
-  const selectedCategory = await window.showQuickPick(categoryItems, {
+  const selectedCategory = await window.showQuickPick(CATEGORY_ITEMS, {
     placeHolder: 'Select category to send to AI',
     title: 'Send Category to AI',
   })
@@ -838,24 +822,7 @@ export async function sendCategoryToAI(): Promise<void> {
     return
   }
 
-  const { formattedComments, files } = formatCommentsForAI(filteredComments)
-  const prompt = await pickPromptTemplate(formattedComments, files)
-
-  if (!prompt) {
-    return
-  }
-
-  const config = workspace.getConfiguration()
-  const aiTool = config.get<string>(configs.aiTool.key, configs.aiTool.default)
-  const aiToolCommand = config.get<string>(configs.aiToolCommand.key, configs.aiToolCommand.default)
-
-  const command = buildAICommand(aiTool, aiToolCommand, prompt)
-
-  const terminal = window.createTerminal('AI Review')
-  terminal.sendText(command)
-  terminal.show()
-
-  showCommentsSentMessage(filteredComments.length, `${selectedCategory.value}`)
+  await executeAIReview(filteredComments, selectedCategory.value)
 }
 
 export function registerCommands(): void {
