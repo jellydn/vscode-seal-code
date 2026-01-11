@@ -44,3 +44,14 @@ Thread: https://ampcode.com/threads/T-019baf25-2047-76fe-9452-5986423210c4
   - Category visibility state is module-level and resets on module load (as required)
   - Use Map initialized with tuple array for default values
 ---
+
+## 2026-01-12 - US-002 (Toggle Category Annotations)
+Thread: https://ampcode.com/threads/T-019baf26-83df-7399-abf7-96d03caff5db
+- Modified updateDecorations to skip comments where isCategoryVisible(category) returns false
+- Hidden categories now show no gutter icons, background, or inline text
+- Simple early continue in the comment loop for hidden categories
+- Files changed: src/decorations.ts
+- **Learnings for future iterations:**
+  - The category visibility filtering is done early in the loop for efficiency
+  - Uses existing isCategoryVisible function added in US-001
+---

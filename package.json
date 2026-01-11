@@ -119,6 +119,12 @@
         "title": "Send Category to AI",
         "category": "Code Review",
         "icon": "$(tag)"
+      },
+      {
+        "command": "codeReview.toggleCategoryAnnotations",
+        "title": "Toggle Category Annotations",
+        "category": "Code Review",
+        "icon": "$(eye)"
       }
     ],
     "viewsContainers": {
@@ -166,6 +172,9 @@
         {
           "command": "codeReview.deleteCommentById",
           "when": "false"
+        },
+        {
+          "command": "codeReview.toggleCategoryAnnotations"
         }
       ],
       "view/item/context": [

@@ -4,7 +4,14 @@ import * as path from 'node:path'
 import { commands, Position, Range, Selection, Uri, window, workspace } from 'vscode'
 import { buildAICommand, formatCommentsForAI } from './aiReview'
 import { AI_TOOLS } from './aiTools'
-import { getStorage, refreshAllDecorations } from './decorations'
+import {
+  getStorage,
+  hideAllCategories,
+  isCategoryVisible,
+  refreshAllDecorations,
+  showAllCategories,
+  toggleCategoryVisibility,
+} from './decorations'
 import { configs, displayName } from './generated/meta'
 import {
   showCommentAddedMessage,
@@ -890,6 +897,47 @@ export async function sendCategoryToAI(): Promise<void> {
   await executeAIReview(filteredComments, selectedCategory.value)
 }
 
+const TOGGLE_CATEGORY_ITEMS: { label: string, value: CommentCategory, description: string }[] = [
+  { label: 'Bug', value: 'bug', description: '' },
+  { label: 'Question', value: 'question', description: '' },
+  { label: 'Suggestion', value: 'suggestion', description: '' },
+  { label: 'Nitpick', value: 'nitpick', description: '' },
+  { label: 'Note', value: 'note', description: '' },
+]
+
+export async function toggleCategoryAnnotations(): Promise<void> {
+  const items: { label: string, value: CommentCategory | 'show-all' | 'hide-all', description: string }[] = [
+    { label: '$(check-all) Show All', value: 'show-all', description: 'Make all categories visible' },
+    { label: '$(close-all) Hide All', value: 'hide-all', description: 'Hide all categories' },
+    ...TOGGLE_CATEGORY_ITEMS.map(item => ({
+      label: isCategoryVisible(item.value) ? `$(check) ${item.label}` : item.label,
+      value: item.value,
+      description: isCategoryVisible(item.value) ? 'Visible' : 'Hidden',
+    })),
+  ]
+
+  const selected = await window.showQuickPick(items, {
+    placeHolder: 'Toggle category annotation visibility',
+    title: 'Toggle Category Annotations',
+  })
+
+  if (!selected) {
+    return
+  }
+
+  if (selected.value === 'show-all') {
+    showAllCategories()
+  }
+  else if (selected.value === 'hide-all') {
+    hideAllCategories()
+  }
+  else {
+    toggleCategoryVisibility(selected.value)
+  }
+
+  await refreshAllDecorations()
+}
+
 export function registerCommands(): void {
   commands.registerCommand('codeReview.addComment', addComment)
   commands.registerCommand('codeReview.navigateToComment', navigateToComment)
@@ -906,4 +954,5 @@ export function registerCommands(): void {
   commands.registerCommand('codeReview.sendToAI', sendToAI)
   commands.registerCommand('codeReview.sendSelectedToAI', sendSelectedToAI)
   commands.registerCommand('codeReview.sendCategoryToAI', sendCategoryToAI)
+  commands.registerCommand('codeReview.toggleCategoryAnnotations', toggleCategoryAnnotations)
 }

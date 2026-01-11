@@ -149,22 +149,23 @@ Choose from built-in templates or create your own:
 
 <!-- commands -->
 
-| Command                        | Title                                 |
-| ------------------------------ | ------------------------------------- |
-| `codeReview.addComment`        | Code Review: Add Review Comment       |
-| `codeReview.editComment`       | Code Review: Edit Comment             |
-| `codeReview.deleteComment`     | Code Review: Delete Comment           |
-| `codeReview.filterByCategory`  | Code Review: Filter by Category       |
-| `codeReview.toggleFileFilter`  | Code Review: Toggle Current File Only |
-| `codeReview.exportMarkdown`    | Code Review: Export to Markdown       |
-| `codeReview.exportHtml`        | Code Review: Export to HTML           |
-| `codeReview.clearAll`          | Code Review: Clear All Comments       |
-| `codeReview.filterByFilename`  | Code Review: Filter by Filename       |
-| `codeReview.editCommentById`   | Code Review: Edit Comment             |
-| `codeReview.deleteCommentById` | Code Review: Delete Comment           |
-| `codeReview.sendToAI`          | Code Review: Send to AI Review        |
-| `codeReview.sendSelectedToAI`  | Code Review: Send Selected to AI      |
-| `codeReview.sendCategoryToAI`  | Code Review: Send Category to AI      |
+| Command                                | Title                                    |
+| -------------------------------------- | ---------------------------------------- |
+| `codeReview.addComment`                | Code Review: Add Review Comment          |
+| `codeReview.editComment`               | Code Review: Edit Comment                |
+| `codeReview.deleteComment`             | Code Review: Delete Comment              |
+| `codeReview.filterByCategory`          | Code Review: Filter by Category          |
+| `codeReview.toggleFileFilter`          | Code Review: Toggle Current File Only    |
+| `codeReview.exportMarkdown`            | Code Review: Export to Markdown          |
+| `codeReview.exportHtml`                | Code Review: Export to HTML              |
+| `codeReview.clearAll`                  | Code Review: Clear All Comments          |
+| `codeReview.filterByFilename`          | Code Review: Filter by Filename          |
+| `codeReview.editCommentById`           | Code Review: Edit Comment                |
+| `codeReview.deleteCommentById`         | Code Review: Delete Comment              |
+| `codeReview.sendToAI`                  | Code Review: Send to AI Review           |
+| `codeReview.sendSelectedToAI`          | Code Review: Send Selected to AI         |
+| `codeReview.sendCategoryToAI`          | Code Review: Send Category to AI         |
+| `codeReview.toggleCategoryAnnotations` | Code Review: Toggle Category Annotations |
 
 <!-- commands -->
 
