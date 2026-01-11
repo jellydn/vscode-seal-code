@@ -1,62 +1,59 @@
 {
-  "project": "vscode-code-notes",
-  "branchName": "ralph/amp-cli-support",
-  "description": "Add Amp CLI support to Send Review Comments to AI feature",
+  "project": "SealCode",
+  "branchName": "ralph/toggle-category-annotations",
+  "description": "Toggle Inline Annotations by Category - Show/hide annotations by category type to reduce visual clutter",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Add Amp CLI as AI tool option",
-      "description": "As a developer, I want to use Amp CLI to review my code comments so I can leverage Amp's AI capabilities.",
+      "title": "Add category visibility state",
+      "description": "As a developer, I need to store which categories are visible so the decoration system can filter accordingly.",
       "acceptanceCriteria": [
-        "Add 'amp' to AI_TOOLS constant in aiTools.ts",
-        "Update AiToolType to include 'amp'",
-        "Add amp case to getAiToolDefaultModel returning 'free'",
+        "Add categoryVisibility Map<CommentCategory, boolean> in decorations.ts initialized with all categories true",
+        "Export isCategoryVisible(category: CommentCategory): boolean function",
+        "Export toggleCategoryVisibility(category: CommentCategory): void function",
+        "Export showAllCategories(): void function to set all categories visible",
+        "Export hideAllCategories(): void function to set all categories hidden",
+        "State resets to all-visible on module load",
         "Typecheck passes"
       ],
       "priority": 1,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-002",
-      "title": "Configure Amp CLI command builder",
-      "description": "As a developer, I need the extension to correctly build Amp CLI commands with proper flags.",
+      "title": "Filter decorations by category visibility",
+      "description": "As a user, I want annotations to appear/disappear based on my category visibility settings.",
       "acceptanceCriteria": [
-        "Add Amp config to AI_TOOL_CONFIGS in aiConfig.ts",
-        "Command format: amp -x \"{{prompt}}\" --mode {{model}} --dangerously-allow-all",
-        "Set requiresModel: true, defaultModel: 'free'",
+        "Modify updateDecorations to skip comments where isCategoryVisible(comment.category) returns false",
+        "Hidden categories show no gutter icons, background, or inline text",
+        "Visible categories display normally based on existing settings",
         "Typecheck passes"
       ],
       "priority": 2,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
       "id": "US-003",
-      "title": "Add Amp to AI tool quick pick",
-      "description": "As a user, I want to see Amp in the AI tool selection dropdown.",
+      "title": "Add toggle category annotations command",
+      "description": "As a user, I want to toggle visibility of specific category annotations via command palette.",
       "acceptanceCriteria": [
-        "Add Amp option to aiToolOptions array in commands.ts",
-        "Include label 'Amp' with value AI_TOOLS.AMP",
+        "Add codeReview.toggleCategoryAnnotations command to package.json with title 'Toggle Category Annotations' and category 'Code Review'",
+        "Add command to commandPalette menu in package.json",
+        "Implement toggleCategoryAnnotations function in commands.ts",
+        "Quick pick menu shows all 5 categories with $(check) icon for visible, no icon for hidden",
+        "Description shows 'Visible' or 'Hidden' status for each category",
+        "Include 'Show All' option at top of quick pick menu",
+        "Include 'Hide All' option after 'Show All' in quick pick menu",
+        "Selecting a category toggles its visibility and refreshes decorations",
+        "Selecting 'Show All' sets all categories visible and refreshes decorations",
+        "Selecting 'Hide All' sets all categories hidden and refreshes decorations",
+        "Register command in registerCommands() function",
         "Typecheck passes"
       ],
       "priority": 3,
-      "passes": true,
-      "notes": ""
-    },
-    {
-      "id": "US-004",
-      "title": "Add Amp model configuration setting",
-      "description": "As a user, I want to configure the Amp mode in VSCode settings.",
-      "acceptanceCriteria": [
-        "Add 'amp' to aiTool enum in package.json",
-        "Add codeNotes.aiTool.ampModel setting with enum: rush, smart (default: smart)",
-        "Run nr update to regenerate metadata",
-        "Update aiReview.ts to read Amp model config in buildAICommand switch",
-        "Typecheck passes"
-      ],
-      "priority": 4,
-      "passes": true,
+      "passes": false,
       "notes": ""
     }
   ]
