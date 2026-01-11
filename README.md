@@ -101,6 +101,7 @@
 | `vscode-code-notes.aiToolClaudeModel`     | Claude model to use (e.g., haiku, sonnet, opus)                                                                     | `string`  | `"haiku"`                                                                                            |
 | `vscode-code-notes.aiToolOpenCodeModel`   | OpenCode model to use (e.g., opencode/big-pickle, opencode/claude)                                                  | `string`  | `"opencode/big-pickle"`                                                                              |
 | `vscode-code-notes.promptTemplates`       | Named prompt templates for AI review. Use {{comments}} for formatted comments and {{files}} for affected file list. | `object`  | See package.json                                                                                     |
+| `vscode-code-notes.showAIQuickPick`       | Show quick pick menu for AI tool selection before sending to AI                                                     | `boolean` | `false`                                                                                              |
 
 <!-- configs -->
 
@@ -126,6 +127,28 @@
 | `codeReview.sendCategoryToAI`  | Code Review: Send Category to AI      |
 
 <!-- commands -->
+
+### 🤖 AI Tool Selection
+
+The extension supports multiple AI tools for code review analysis:
+
+- **OpenCode** (default) - Uses OpenCode models
+- **Claude** - Uses Anthropic Claude models
+- **Custom** - Use your own AI command (e.g., `ccs glm`)
+
+#### Runtime Selection
+Enable the AI tool quick pick by setting:
+```json
+{
+  "vscode-code-notes.showAIQuickPick": true
+}
+```
+
+This allows you to choose the AI tool each time you send comments to review, enabling parallel execution with different AI tools for comprehensive analysis.
+
+#### Terminal Naming
+Each AI review session creates a dedicated terminal with the format:
+`Code Notes - Review Comments - [Template Name] - (AI Tool)`
 
 ## 🤝 Contributing
 

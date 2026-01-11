@@ -2,8 +2,9 @@ import type { Comment, CommentCategory } from './types'
 import * as path from 'node:path'
 import { commands, Position, Range, Selection, Uri, window, workspace } from 'vscode'
 import { buildAICommand, formatCommentsForAI } from './aiReview'
+import { AI_TOOLS } from './aiTools'
 import { getStorage, refreshAllDecorations } from './decorations'
-import { configs } from './generated/meta'
+import { configs, displayName } from './generated/meta'
 import {
   showCommentAddedMessage,
   showCommentDeletedMessage,
@@ -17,6 +18,17 @@ import { getTreeDataProvider, refreshTreeView } from './treeView'
 
 interface CommentItemLike {
   comment: Comment
+}
+
+function generateTerminalName(promptTemplateName?: string, aiTool?: string): string {
+  const parts = [displayName]
+  if (promptTemplateName) {
+    parts.push(promptTemplateName)
+  }
+  if (aiTool) {
+    parts.push(`(${aiTool})`)
+  }
+  return parts.join(' - ')
 }
 
 function extractComment(arg: Comment | CommentItemLike): Comment {
@@ -661,7 +673,7 @@ export async function exportHtml(): Promise<void> {
   showCommentsExportedMessage(comments.length, 'html')
 }
 
-async function pickPromptTemplate(formattedComments: string, files: string[]): Promise<string | undefined> {
+async function pickPromptTemplate(formattedComments: string, files: string[]): Promise<{ prompt: string, templateName: string } | undefined> {
   const config = workspace.getConfiguration()
   const promptTemplates = config.get<Record<string, string>>(configs.promptTemplates.key, configs.promptTemplates.default as Record<string, string>)
 
@@ -682,6 +694,8 @@ async function pickPromptTemplate(formattedComments: string, files: string[]): P
   }
 
   let template: string
+  let templateName: string
+
   if (selected.value === null) {
     const customPrompt = await window.showInputBox({
       prompt: 'Enter custom prompt (use {{comments}} and {{files}} as placeholders)',
@@ -691,23 +705,18 @@ async function pickPromptTemplate(formattedComments: string, files: string[]): P
       return undefined
     }
     template = customPrompt
+    templateName = 'Custom'
   }
   else {
     template = selected.value
+    templateName = selected.label
   }
 
-  const commentsSection = formattedComments
-    .split('\n')
-    .map(line => `  ${line}`)
-    .join('\n')
+  const processedPrompt = template
+    .replace('{{comments}}', formattedComments)
+    .replace('{{files}}', files.join(', '))
 
-  const filesSection = files
-    .map(file => `  - ${file}`)
-    .join('\n')
-
-  return template
-    .replace(/\{\{comments\}\}/g, `<user_comments>\n${commentsSection}\n</user_comments>`)
-    .replace(/\{\{files\}\}/g, `<affected_files>\n${filesSection}\n</affected_files>`)
+  return { prompt: processedPrompt, templateName }
 }
 
 export async function sendToAI(): Promise<void> {
@@ -726,19 +735,43 @@ async function executeAIReview(comments: Comment[], context: string = ''): Promi
   }
 
   const { formattedComments, files } = formatCommentsForAI(comments)
-  const prompt = await pickPromptTemplate(formattedComments, files)
+  const promptResult = await pickPromptTemplate(formattedComments, files)
 
-  if (!prompt) {
+  if (!promptResult) {
     return
   }
 
+  const { prompt, templateName } = promptResult
+
+  // AI tool selection
   const config = workspace.getConfiguration()
-  const aiTool = config.get<string>(configs.aiTool.key, configs.aiTool.default)
+  let aiTool = config.get<string>(configs.aiTool.key, configs.aiTool.default)
   const aiToolCommand = config.get<string>(configs.aiToolCommand.key, configs.aiToolCommand.default)
+
+  // Add runtime AI tool selection
+  const showQuickPickForAI = config.get<boolean>(configs.showAIQuickPick.key, configs.showAIQuickPick.default)
+  if (showQuickPickForAI) {
+    const aiToolOptions = [
+      { label: 'OpenCode', value: AI_TOOLS.OPENCODE },
+      { label: 'Claude', value: AI_TOOLS.CLAUDE },
+      { label: 'Custom', value: AI_TOOLS.CUSTOM },
+    ]
+
+    const selectedAITool = await window.showQuickPick(aiToolOptions, {
+      placeHolder: 'Select AI tool',
+      title: 'AI Tool Selection',
+    })
+
+    if (selectedAITool) {
+      aiTool = selectedAITool.value
+    }
+  }
 
   const command = buildAICommand(aiTool, aiToolCommand, prompt)
 
-  const terminal = window.createTerminal('AI Review')
+  // Generate terminal name with extension name + prompt template + AI tool
+  const terminalName = generateTerminalName(templateName, aiTool)
+  const terminal = window.createTerminal(terminalName)
   terminal.sendText(command)
   terminal.show()
 

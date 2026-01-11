@@ -313,6 +313,11 @@
             "type": "string",
             "description": "Prompt template text. Supports {{comments}} and {{files}} placeholders."
           }
+        },
+        "vscode-code-notes.showAIQuickPick": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show quick pick menu for AI tool selection before sending to AI"
         }
       }
     }
