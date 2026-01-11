@@ -281,7 +281,7 @@
         },
         "vscode-code-notes.aiTool": {
           "type": "string",
-          "enum": ["claude", "opencode", "custom"],
+          "enum": ["claude", "copilot", "opencode", "custom"],
           "default": "opencode",
           "description": "AI CLI tool to use for sending review comments"
         },
@@ -299,6 +299,11 @@
           "type": "string",
           "default": "opencode/big-pickle",
           "description": "OpenCode model to use (e.g., opencode/big-pickle, opencode/claude)"
+        },
+        "vscode-code-notes.aiToolCopilotModel": {
+          "type": "string",
+          "default": "gpt-4.1",
+          "description": "Copilot model to use (e.g., gpt-4.1, gpt-4o, o3)"
         },
         "vscode-code-notes.promptTemplates": {
           "type": "object",

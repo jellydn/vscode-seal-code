@@ -17,6 +17,13 @@ export const AI_TOOL_CONFIGS: Record<AiToolType, AiToolConfig> = {
     securityWarning: false,
     requiresCustomCommand: false,
   },
+  [AI_TOOLS.COPILOT]: {
+    command: 'copilot -p "{{prompt}}" --allow-all-tools --model {{model}} --stream on',
+    requiresModel: true,
+    defaultModel: 'gpt-4.1',
+    securityWarning: false,
+    requiresCustomCommand: false,
+  },
   [AI_TOOLS.OPENCODE]: {
     command: 'opencode run --model {{model}} "{{prompt}}"',
     requiresModel: true,

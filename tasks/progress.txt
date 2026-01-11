@@ -1,0 +1,46 @@
+## Codebase Patterns
+- aiToolOptions array in commands.ts controls the quick pick UI - add new tools there alongside AI_TOOLS constant
+- AI tool configuration uses `AI_TOOL_CONFIGS` in `aiConfig.ts` alongside `AI_TOOLS` constant in `aiTools.ts`
+- When adding new AI tools: update both `AI_TOOLS`, `AI_TOOL_CONFIGS`, `getAiToolDefaultModel`, and package.json enum + model setting
+- Run `nr update` after modifying package.json to regenerate VSCode metadata in `src/generated/meta.ts`
+- `buildCommand()` is data-driven via `AI_TOOL_CONFIGS` - no switch/case needed for new tools
+
+---
+
+## 2026-01-11 - US-003
+Thread: https://ampcode.com/threads/T-019babbe-34ff-75fd-9673-9f6a86d296a0
+- Added Copilot option to aiToolOptions array in sendToAI function
+- Files changed:
+  - src/commands.ts - Added `{ label: 'Copilot', value: AI_TOOLS.COPILOT }` to aiToolOptions
+- Copilot now appears alongside OpenCode, Claude, and Custom options in quick pick
+- **Learnings for future iterations:**
+  - The aiToolOptions array is separate from AI_TOOLS constant - when adding a new AI tool, remember to add it to both places
+  - Custom should remain last in the list as it's the "other" option
+---
+
+## 2026-01-11 - US-002
+Thread: https://ampcode.com/threads/T-019babbd-09db-74f8-ae24-21bf40c6ac06
+- Verified Copilot CLI command builder was already implemented as part of US-001
+- Files verified:
+  - src/commandBuilder.ts - Uses getToolConfig() which already handles copilot
+  - src/aiConfig.ts - Already contains AI_TOOL_CONFIGS[COPILOT] with correct command template
+- Command format: `copilot -p "{{prompt}}" --allow-all-tools --model {{model}}`
+- All acceptance criteria already satisfied, typecheck passes
+- **Learnings for future iterations:**
+  - The AI_TOOL_CONFIGS pattern means adding a new tool config automatically makes buildCommand work via getToolConfig()
+  - No separate case statement needed in buildCommand - it's fully data-driven through AI_TOOL_CONFIGS
+---
+
+## 2025-01-11 - US-001
+Thread: https://ampcode.com/threads/T-019babba-a295-7229-aa06-2e372b3c83c1
+- Implemented Copilot CLI as an AI tool option
+- Files changed:
+  - src/aiTools.ts - Added COPILOT to AI_TOOLS and getAiToolDefaultModel
+  - src/aiConfig.ts - Added Copilot configuration with command template
+  - package.json - Added 'copilot' to aiTool enum, added aiToolCopilotModel setting
+  - src/generated/meta.ts - Regenerated VSCode metadata
+- **Learnings for future iterations:**
+  - AI tool additions require updates in multiple files (aiTools.ts, aiConfig.ts, package.json)
+  - The aiConfig.ts file was discovered during typecheck failure - not listed in acceptance criteria but required for full integration
+  - Use `nr update` after package.json changes to regenerate TypeScript types
+---

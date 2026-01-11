@@ -1,5 +1,6 @@
 export const AI_TOOLS = {
   CLAUDE: 'claude',
+  COPILOT: 'copilot',
   OPENCODE: 'opencode',
   CUSTOM: 'custom',
 } as const
@@ -14,6 +15,8 @@ export function getAiToolDefaultModel(tool: AiToolType): string {
   switch (tool) {
     case AI_TOOLS.CLAUDE:
       return 'haiku'
+    case AI_TOOLS.COPILOT:
+      return 'gpt-4.1'
     case AI_TOOLS.OPENCODE:
       return 'opencode/big-pickle'
     case AI_TOOLS.CUSTOM:

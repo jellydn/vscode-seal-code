@@ -51,7 +51,9 @@ export function buildAICommand(tool: string, customCommand: string, prompt: stri
     window.showWarningMessage(
       'Custom AI tool command is empty. Using opencode as fallback.',
     )
-    return buildCommand(AI_TOOLS.OPENCODE, prompt)
+    const fallbackConfig = workspace.getConfiguration()
+    const fallbackModel = fallbackConfig.get<string>(configs.aiToolOpenCodeModel.key, configs.aiToolOpenCodeModel.default)
+    return buildCommand(AI_TOOLS.OPENCODE, prompt, fallbackModel)
   }
 
   const toolConfig = getToolConfig(aiTool)
@@ -64,9 +66,20 @@ export function buildAICommand(tool: string, customCommand: string, prompt: stri
   }
 
   const config = workspace.getConfiguration()
-  const configuredModel = aiTool === AI_TOOLS.CLAUDE
-    ? config.get<string>(configs.aiToolClaudeModel.key, configs.aiToolClaudeModel.default)
-    : config.get<string>(configs.aiToolOpenCodeModel.key, configs.aiToolOpenCodeModel.default)
+  let configuredModel: string
+  switch (aiTool) {
+    case AI_TOOLS.CLAUDE:
+      configuredModel = config.get<string>(configs.aiToolClaudeModel.key, configs.aiToolClaudeModel.default)
+      break
+    case AI_TOOLS.COPILOT:
+      configuredModel = config.get<string>(configs.aiToolCopilotModel.key, configs.aiToolCopilotModel.default)
+      break
+    case AI_TOOLS.OPENCODE:
+      configuredModel = config.get<string>(configs.aiToolOpenCodeModel.key, configs.aiToolOpenCodeModel.default)
+      break
+    default:
+      configuredModel = ''
+  }
   const model = getEffectiveModel(aiTool, configuredModel)
 
   return buildCommand(aiTool, prompt, model, customCommand)

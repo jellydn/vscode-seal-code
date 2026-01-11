@@ -1,0 +1,49 @@
+{
+  "project": "vscode-code-notes",
+  "branchName": "ralph/copilot-cli-support",
+  "description": "Add Copilot CLI support to Send Review Comments to AI feature",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add Copilot CLI as AI tool option",
+      "description": "As a developer, I want to use GitHub Copilot CLI to review my code comments so I can leverage my existing Copilot subscription.",
+      "acceptanceCriteria": [
+        "Add 'copilot' to AI_TOOLS constant in aiTools.ts",
+        "Update AiToolType to include 'copilot'",
+        "Add copilot to aiTool enum in package.json configuration",
+        "Add vscode-code-notes.aiToolCopilotModel setting with enum choices: claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.5, claude-sonnet-4, gpt-5.1-codex-max, gpt-5.1-codex, gpt-5.2, gpt-5.1, gpt-5, gpt-5.1-codex-mini, gpt-5-mini, gpt-4.1, gemini-3-pro-preview (default: gpt-4.1)",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Implement Copilot CLI command builder",
+      "description": "As a developer, I want the extension to correctly build Copilot CLI commands so my review comments are sent properly.",
+      "acceptanceCriteria": [
+        "Add copilot case to buildCommand function in commandBuilder.ts",
+        "Copilot command format: copilot -p \"prompt\" --allow-all-tools --model <configured-model>",
+        "Handle copilot in getToolConfig function",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Add Copilot to AI tool quick pick",
+      "description": "As a developer, I want to see Copilot as an option when selecting AI tools so I can choose it from the UI.",
+      "acceptanceCriteria": [
+        "Add Copilot option to aiToolOptions array in commands.ts sendToAI function",
+        "Copilot should appear alongside OpenCode, Claude, and Custom options",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}
