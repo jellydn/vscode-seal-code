@@ -238,8 +238,9 @@
       },
       {
         "command": "codeReview.sendToAI",
-        "key": "ctrl+shift+a",
-        "mac": "cmd+shift+a"
+        "key": "ctrl+alt+shift+a",
+        "mac": "cmd+alt+shift+a",
+        "when": "editorTextFocus"
       }
     ],
     "configuration": {

@@ -69,7 +69,7 @@ Code reviews are essential for maintaining code quality, but traditional review 
 2. **Select code** in any file
 3. Press <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (Mac) or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (Windows/Linux)
 4. **Choose a category** and add your comment
-5. Press <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd> to send comments to AI for analysis
+5. Press <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd> to send comments to AI for analysis
 
 ## 📖 Usage
 
@@ -135,6 +135,7 @@ Choose from built-in templates or create your own:
 | `seal-code.aiToolAmpModel`        | Amp mode to use (rush or smart). Execute mode requires rush or smart.                                               | `string`  | `"smart"`                                                                                            |
 | `seal-code.promptTemplates`       | Named prompt templates for AI review. Use {{comments}} for formatted comments and {{files}} for affected file list. | `object`  | See package.json                                                                                     |
 | `seal-code.showAIQuickPick`       | Show quick pick menu for AI tool selection before sending to AI                                                     | `boolean` | `false`                                                                                              |
+| `seal-code.aiReviewKeybinding`    | Keybinding for Send to AI Review command                                                                            | `string`  | `"cmd+option+shift+a"`                                                                               |
 
 <!-- configs -->
 
