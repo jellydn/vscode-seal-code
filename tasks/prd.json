@@ -1,17 +1,16 @@
 {
   "project": "vscode-code-notes",
-  "branchName": "ralph/copilot-cli-support",
-  "description": "Add Copilot CLI support to Send Review Comments to AI feature",
+  "branchName": "ralph/amp-cli-support",
+  "description": "Add Amp CLI support to Send Review Comments to AI feature",
   "userStories": [
     {
       "id": "US-001",
-      "title": "Add Copilot CLI as AI tool option",
-      "description": "As a developer, I want to use GitHub Copilot CLI to review my code comments so I can leverage my existing Copilot subscription.",
+      "title": "Add Amp CLI as AI tool option",
+      "description": "As a developer, I want to use Amp CLI to review my code comments so I can leverage Amp's AI capabilities.",
       "acceptanceCriteria": [
-        "Add 'copilot' to AI_TOOLS constant in aiTools.ts",
-        "Update AiToolType to include 'copilot'",
-        "Add copilot to aiTool enum in package.json configuration",
-        "Add vscode-code-notes.aiToolCopilotModel setting with enum choices: claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.5, claude-sonnet-4, gpt-5.1-codex-max, gpt-5.1-codex, gpt-5.2, gpt-5.1, gpt-5, gpt-5.1-codex-mini, gpt-5-mini, gpt-4.1, gemini-3-pro-preview (default: gpt-4.1)",
+        "Add 'amp' to AI_TOOLS constant in aiTools.ts",
+        "Update AiToolType to include 'amp'",
+        "Add amp case to getAiToolDefaultModel returning 'free'",
         "Typecheck passes"
       ],
       "priority": 1,
@@ -20,12 +19,12 @@
     },
     {
       "id": "US-002",
-      "title": "Implement Copilot CLI command builder",
-      "description": "As a developer, I want the extension to correctly build Copilot CLI commands so my review comments are sent properly.",
+      "title": "Configure Amp CLI command builder",
+      "description": "As a developer, I need the extension to correctly build Amp CLI commands with proper flags.",
       "acceptanceCriteria": [
-        "Add copilot case to buildCommand function in commandBuilder.ts",
-        "Copilot command format: copilot -p \"prompt\" --allow-all-tools --model <configured-model>",
-        "Handle copilot in getToolConfig function",
+        "Add Amp config to AI_TOOL_CONFIGS in aiConfig.ts",
+        "Command format: amp -x \"{{prompt}}\" --mode {{model}} --dangerously-allow-all",
+        "Set requiresModel: true, defaultModel: 'free'",
         "Typecheck passes"
       ],
       "priority": 2,
@@ -34,14 +33,29 @@
     },
     {
       "id": "US-003",
-      "title": "Add Copilot to AI tool quick pick",
-      "description": "As a developer, I want to see Copilot as an option when selecting AI tools so I can choose it from the UI.",
+      "title": "Add Amp to AI tool quick pick",
+      "description": "As a user, I want to see Amp in the AI tool selection dropdown.",
       "acceptanceCriteria": [
-        "Add Copilot option to aiToolOptions array in commands.ts sendToAI function",
-        "Copilot should appear alongside OpenCode, Claude, and Custom options",
+        "Add Amp option to aiToolOptions array in commands.ts",
+        "Include label 'Amp' with value AI_TOOLS.AMP",
         "Typecheck passes"
       ],
       "priority": 3,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Add Amp model configuration setting",
+      "description": "As a user, I want to configure the Amp mode in VSCode settings.",
+      "acceptanceCriteria": [
+        "Add 'amp' to aiTool enum in package.json",
+        "Add codeNotes.aiTool.ampModel setting with enum: rush, smart (default: smart)",
+        "Run nr update to regenerate metadata",
+        "Update aiReview.ts to read Amp model config in buildAICommand switch",
+        "Typecheck passes"
+      ],
+      "priority": 4,
       "passes": true,
       "notes": ""
     }

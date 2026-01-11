@@ -7,40 +7,28 @@
 
 ---
 
+## 2026-01-11 - US-001
+Thread: https://ampcode.com/threads/T-019babd6-d8b8-748b-834e-d2ecac254f14
+- Added 'amp' to AI_TOOLS constant in aiTools.ts
+- Added AMP case to getAiToolDefaultModel returning 'free'
+- Also added AMP config to AI_TOOL_CONFIGS in aiConfig.ts (required for type completeness)
+- Files changed: src/aiTools.ts, src/aiConfig.ts, tasks/prd.json
+- **Learnings for future iterations:**
+  - Adding a new tool to AI_TOOLS requires also adding to AI_TOOL_CONFIGS for type safety
+  - The codebase pattern notes were accurate - buildCommand is data-driven
+---
+
 ## 2026-01-11 - US-003
-Thread: https://ampcode.com/threads/T-019babbe-34ff-75fd-9673-9f6a86d296a0
-- Added Copilot option to aiToolOptions array in sendToAI function
-- Files changed:
-  - src/commands.ts - Added `{ label: 'Copilot', value: AI_TOOLS.COPILOT }` to aiToolOptions
-- Copilot now appears alongside OpenCode, Claude, and Custom options in quick pick
-- **Learnings for future iterations:**
-  - The aiToolOptions array is separate from AI_TOOLS constant - when adding a new AI tool, remember to add it to both places
-  - Custom should remain last in the list as it's the "other" option
+Thread: https://ampcode.com/threads/T-019babd6-d8b8-748b-834e-d2ecac254f14
+- Added Amp to aiToolOptions array in commands.ts at line 765
+- Files changed: src/commands.ts
 ---
 
-## 2026-01-11 - US-002
-Thread: https://ampcode.com/threads/T-019babbd-09db-74f8-ae24-21bf40c6ac06
-- Verified Copilot CLI command builder was already implemented as part of US-001
-- Files verified:
-  - src/commandBuilder.ts - Uses getToolConfig() which already handles copilot
-  - src/aiConfig.ts - Already contains AI_TOOL_CONFIGS[COPILOT] with correct command template
-- Command format: `copilot -p "{{prompt}}" --allow-all-tools --model {{model}}`
-- All acceptance criteria already satisfied, typecheck passes
-- **Learnings for future iterations:**
-  - The AI_TOOL_CONFIGS pattern means adding a new tool config automatically makes buildCommand work via getToolConfig()
-  - No separate case statement needed in buildCommand - it's fully data-driven through AI_TOOL_CONFIGS
----
-
-## 2025-01-11 - US-001
-Thread: https://ampcode.com/threads/T-019babba-a295-7229-aa06-2e372b3c83c1
-- Implemented Copilot CLI as an AI tool option
-- Files changed:
-  - src/aiTools.ts - Added COPILOT to AI_TOOLS and getAiToolDefaultModel
-  - src/aiConfig.ts - Added Copilot configuration with command template
-  - package.json - Added 'copilot' to aiTool enum, added aiToolCopilotModel setting
-  - src/generated/meta.ts - Regenerated VSCode metadata
-- **Learnings for future iterations:**
-  - AI tool additions require updates in multiple files (aiTools.ts, aiConfig.ts, package.json)
-  - The aiConfig.ts file was discovered during typecheck failure - not listed in acceptance criteria but required for full integration
-  - Use `nr update` after package.json changes to regenerate TypeScript types
+## 2026-01-11 - US-004
+Thread: https://ampcode.com/threads/T-019babd6-d8b8-748b-834e-d2ecac254f14
+- Added 'amp' to aiTool enum in package.json
+- Added vscode-code-notes.aiToolAmpModel setting with enum: free, rush, smart
+- Ran nr update to regenerate src/generated/meta.ts
+- Added AMP case to buildAICommand switch in aiReview.ts to read model config
+- Files changed: package.json, src/generated/meta.ts, src/aiReview.ts
 ---

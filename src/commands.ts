@@ -762,6 +762,7 @@ async function executeAIReview(comments: Comment[], context: string = ''): Promi
       { label: 'OpenCode', value: AI_TOOLS.OPENCODE },
       { label: 'Claude', value: AI_TOOLS.CLAUDE },
       { label: 'Copilot', value: AI_TOOLS.COPILOT },
+      { label: 'Amp', value: AI_TOOLS.AMP },
       { label: 'Custom', value: AI_TOOLS.CUSTOM },
     ]
 

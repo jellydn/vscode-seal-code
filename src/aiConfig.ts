@@ -31,6 +31,13 @@ export const AI_TOOL_CONFIGS: Record<AiToolType, AiToolConfig> = {
     securityWarning: false,
     requiresCustomCommand: false,
   },
+  [AI_TOOLS.AMP]: {
+    command: 'amp -x "{{prompt}}" --mode {{model}} --dangerously-allow-all',
+    requiresModel: true,
+    defaultModel: 'smart',
+    securityWarning: false,
+    requiresCustomCommand: false,
+  },
   [AI_TOOLS.CUSTOM]: {
     command: '{{customCommand}} "{{prompt}}"',
     requiresModel: false,

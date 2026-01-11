@@ -77,6 +77,9 @@ export function buildAICommand(tool: string, customCommand: string, prompt: stri
     case AI_TOOLS.OPENCODE:
       configuredModel = config.get<string>(configs.aiToolOpenCodeModel.key, configs.aiToolOpenCodeModel.default)
       break
+    case AI_TOOLS.AMP:
+      configuredModel = config.get<string>(configs.aiToolAmpModel.key, configs.aiToolAmpModel.default)
+      break
     default:
       configuredModel = ''
   }

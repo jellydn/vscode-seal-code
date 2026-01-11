@@ -2,6 +2,7 @@ export const AI_TOOLS = {
   CLAUDE: 'claude',
   COPILOT: 'copilot',
   OPENCODE: 'opencode',
+  AMP: 'amp',
   CUSTOM: 'custom',
 } as const
 
@@ -19,6 +20,8 @@ export function getAiToolDefaultModel(tool: AiToolType): string {
       return 'gpt-4.1'
     case AI_TOOLS.OPENCODE:
       return 'opencode/big-pickle'
+    case AI_TOOLS.AMP:
+      return 'smart'
     case AI_TOOLS.CUSTOM:
       return ''
     default:

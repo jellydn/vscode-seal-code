@@ -281,7 +281,7 @@
         },
         "vscode-code-notes.aiTool": {
           "type": "string",
-          "enum": ["claude", "copilot", "opencode", "custom"],
+          "enum": ["claude", "copilot", "opencode", "amp", "custom"],
           "default": "opencode",
           "description": "AI CLI tool to use for sending review comments"
         },
@@ -304,6 +304,12 @@
           "type": "string",
           "default": "gpt-4.1",
           "description": "Copilot model to use (e.g., gpt-4.1, gpt-4o, o3)"
+        },
+        "vscode-code-notes.aiToolAmpModel": {
+          "type": "string",
+          "enum": ["rush", "smart"],
+          "default": "smart",
+          "description": "Amp mode to use (rush or smart). Execute mode requires rush or smart."
         },
         "vscode-code-notes.promptTemplates": {
           "type": "object",
