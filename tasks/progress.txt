@@ -55,3 +55,19 @@ Thread: https://ampcode.com/threads/T-019baf26-83df-7399-abf7-96d03caff5db
   - The category visibility filtering is done early in the loop for efficiency
   - Uses existing isCategoryVisible function added in US-001
 ---
+
+## 2026-01-12 - US-003 (Toggle Category Annotations)
+Thread: https://ampcode.com/threads/T-019baf27-c3af-760d-a89e-107841aede1e
+- Added codeReview.toggleCategoryAnnotations command to package.json with icon $(eye)
+- Added command to commandPalette menu in package.json
+- Implemented toggleCategoryAnnotations function in commands.ts with quick pick menu
+- Quick pick shows $(check) icon for visible categories, no icon for hidden
+- Description shows 'Visible' or 'Hidden' status for each category
+- Includes 'Show All' and 'Hide All' options at top
+- Registered command in registerCommands()
+- Ran nr update to regenerate meta.ts
+- Files changed: package.json, src/commands.ts, src/generated/meta.ts
+- **Learnings for future iterations:**
+  - Import visibility functions (isCategoryVisible, toggleCategoryVisibility, showAllCategories, hideAllCategories) from decorations.ts
+  - Use union types for quick pick value when mixing category values with special actions
+---
