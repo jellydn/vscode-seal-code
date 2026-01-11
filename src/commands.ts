@@ -724,8 +724,17 @@ export async function sendToAI(): Promise<void> {
     return
   }
 
-  const comments = getStorage().getAll()
-  await executeAIReview(comments)
+  const treeProvider = getTreeDataProvider()
+  const categoryFilter = treeProvider?.getCategoryFilter()
+  let comments = getStorage().getAll()
+
+  if (categoryFilter) {
+    comments = comments.filter(c => c.category === categoryFilter)
+    await executeAIReview(comments, categoryFilter)
+  }
+  else {
+    await executeAIReview(comments)
+  }
 }
 
 async function executeAIReview(comments: Comment[], context: string = ''): Promise<void> {
@@ -743,12 +752,10 @@ async function executeAIReview(comments: Comment[], context: string = ''): Promi
 
   const { prompt, templateName } = promptResult
 
-  // AI tool selection
   const config = workspace.getConfiguration()
   let aiTool = config.get<string>(configs.aiTool.key, configs.aiTool.default)
   const aiToolCommand = config.get<string>(configs.aiToolCommand.key, configs.aiToolCommand.default)
 
-  // Add runtime AI tool selection
   const showQuickPickForAI = config.get<boolean>(configs.showAIQuickPick.key, configs.showAIQuickPick.default)
   if (showQuickPickForAI) {
     const aiToolOptions = [
@@ -769,7 +776,6 @@ async function executeAIReview(comments: Comment[], context: string = ''): Promi
 
   const command = buildAICommand(aiTool, aiToolCommand, prompt)
 
-  // Generate terminal name with extension name + prompt template + AI tool
   const terminalName = generateTerminalName(templateName, aiTool)
   const terminal = window.createTerminal(terminalName)
   terminal.sendText(command)
