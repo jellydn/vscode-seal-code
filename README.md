@@ -54,7 +54,7 @@
 
 ## 🚀 Quick Start
 
-1. **Install** the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=jellydn.vscode-code-notes)
+1. **Install** the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=jellydn.vscode-code-notes) or search for `jellydn.vscode-code-notes` in VS Code Extensions
 2. **Select code** in any file
 3. Press <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (Mac) or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (Windows/Linux)
 4. **Choose a category** and add your comment
