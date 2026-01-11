@@ -1,25 +1,27 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background - Blue rounded square -->
-  <rect width="512" height="512" rx="96" fill="#2196F3"/>
+  <!-- Background - Dark rounded square -->
+  <rect width="512" height="512" rx="96" fill="#1a1a2e"/>
 
-  <!-- White document/page -->
-  <rect x="120" y="70" width="272" height="340" rx="16" fill="white"/>
+  <!-- Outer ring of seal stamp -->
+  <circle cx="256" cy="256" r="180" stroke="#4f46e5" stroke-width="12" fill="none"/>
+  <circle cx="256" cy="256" r="160" stroke="#6366f1" stroke-width="6" fill="none" stroke-dasharray="20 10"/>
 
-  <!-- Simple code lines -->
-  <rect x="150" y="110" width="140" height="16" rx="8" fill="#E3F2FD"/>
-  <rect x="150" y="140" width="200" height="16" rx="8" fill="#E3F2FD"/>
-  <rect x="150" y="170" width="180" height="16" rx="8" fill="#E3F2FD"/>
-  <rect x="150" y="200" width="160" height="16" rx="8" fill="#E3F2FD"/>
+  <!-- Inner seal body -->
+  <circle cx="256" cy="256" r="140" fill="#16213e" stroke="#818cf8" stroke-width="4"/>
 
-  <!-- Comment badge - yellow circle at top right -->
-  <circle cx="364" cy="124" r="60" fill="#FFC107" stroke="white" stroke-width="10"/>
+  <!-- Code brackets forming seal shape -->
+  <path d="M180 200 L160 220 L160 292 L180 312" stroke="#22d3ee" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M332 200 L352 220 L352 292 L332 312" stroke="#22d3ee" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 
-  <!-- Checkmark inside badge -->
-  <path d="M334 124 L356 146 L394 102" stroke="#2196F3" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Code lines inside seal -->
+  <line x1="200" y1="235" x2="280" y2="235" stroke="#a5b4fc" stroke-width="10" stroke-linecap="round"/>
+  <line x1="200" y1="256" x2="312" y2="256" stroke="#c084fc" stroke-width="10" stroke-linecap="round"/>
+  <line x1="200" y1="277" x2="260" y2="277" stroke="#a5b4fc" stroke-width="10" stroke-linecap="round"/>
 
-  <!-- Colored dots at bottom representing categories -->
-  <circle cx="160" cy="360" r="20" fill="#f44336"/>
-  <circle cx="220" cy="360" r="20" fill="#2196f3"/>
-  <circle cx="280" cy="360" r="20" fill="#4caf50"/>
-  <circle cx="340" cy="360" r="20" fill="#ff9800"/>
+  <!-- AI sparkle accent -->
+  <path d="M330 180 L338 195 L353 203 L338 211 L330 226 L322 211 L307 203 L322 195 Z" fill="#f472b6"/>
+
+  <!-- Checkmark seal of approval -->
+  <circle cx="390" cy="390" r="45" fill="#22d3ee"/>
+  <path d="M370 390 L383 403 L410 377" stroke="#1a1a2e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
