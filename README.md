@@ -76,21 +76,27 @@ Code reviews are essential for maintaining code quality, but traditional review 
 ### Adding Comments
 - Use the keyboard shortcut <kbd>Cmd/Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>
 - Right-click on selected code → **Code Review: Add Review Comment**
+[![add Review Comment](https://i.gyazo.com/a5802b99034a412efb30631e9fc94faf.gif)](https://gyazo.com/a5802b99034a412efb30631e9fc94faf)
 - Click the **+** button in the Code Review panel
+[![add comment for panel](https://i.gyazo.com/cae7a708a40931be21590ed460a37a6e.gif)](https://gyazo.com/cae7a708a40931be21590ed460a37a6e)
 
 ### Managing Comments
 - Click on any comment in the sidebar to jump to its location
+[![managing comments](https://i.gyazo.com/268476c735358041b054896f798a497e.gif)](https://gyazo.com/268476c735358041b054896f798a497e)
 - Use inline edit/delete buttons or the context menu
+[![delete comment](https://i.gyazo.com/609236f3397d6c165cb09f68131be969.gif)](https://gyazo.com/609236f3397d6c165cb09f68131be969)
 - Press <kbd>Delete</kbd> when a comment is focused to remove it
 
 ### Filtering
 - **By Category**: Click the filter icon and select categories to show
 - **By Filename**: Search for specific files
 - **Current File Only**: Toggle to focus on the active file
+[![filter](https://i.gyazo.com/244e165facd9e5079cf1015cab8bc3d5.gif)](https://gyazo.com/244e165facd9e5079cf1015cab8bc3d5)
 
 ### Exporting
 - Open the view menu in the Code Review panel
 - Choose **Export to Markdown** or **Export to HTML**
+[![exporting](https://i.gyazo.com/1483d0e35d89f1f29efdf9b4564874b3.gif)](https://gyazo.com/1483d0e35d89f1f29efdf9b4564874b3)
 
 ### 🤖 AI Review
 
