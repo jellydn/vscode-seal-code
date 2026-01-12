@@ -32,3 +32,42 @@ Thread: https://ampcode.com/threads/T-019babd6-d8b8-748b-834e-d2ecac254f14
 - Added AMP case to buildAICommand switch in aiReview.ts to read model config
 - Files changed: package.json, src/generated/meta.ts, src/aiReview.ts
 ---
+
+## 2026-01-12 - US-001 (Toggle Category Annotations)
+Thread: https://ampcode.com/threads/T-019baf25-2047-76fe-9452-5986423210c4
+- Added category visibility state to decorations.ts
+- Added ALL_CATEGORIES constant array
+- Added categoryVisibility Map initialized with all categories visible
+- Exported isCategoryVisible, toggleCategoryVisibility, showAllCategories, hideAllCategories functions
+- Files changed: src/decorations.ts
+- **Learnings for future iterations:**
+  - Category visibility state is module-level and resets on module load (as required)
+  - Use Map initialized with tuple array for default values
+---
+
+## 2026-01-12 - US-002 (Toggle Category Annotations)
+Thread: https://ampcode.com/threads/T-019baf26-83df-7399-abf7-96d03caff5db
+- Modified updateDecorations to skip comments where isCategoryVisible(category) returns false
+- Hidden categories now show no gutter icons, background, or inline text
+- Simple early continue in the comment loop for hidden categories
+- Files changed: src/decorations.ts
+- **Learnings for future iterations:**
+  - The category visibility filtering is done early in the loop for efficiency
+  - Uses existing isCategoryVisible function added in US-001
+---
+
+## 2026-01-12 - US-003 (Toggle Category Annotations)
+Thread: https://ampcode.com/threads/T-019baf27-c3af-760d-a89e-107841aede1e
+- Added codeReview.toggleCategoryAnnotations command to package.json with icon $(eye)
+- Added command to commandPalette menu in package.json
+- Implemented toggleCategoryAnnotations function in commands.ts with quick pick menu
+- Quick pick shows $(check) icon for visible categories, no icon for hidden
+- Description shows 'Visible' or 'Hidden' status for each category
+- Includes 'Show All' and 'Hide All' options at top
+- Registered command in registerCommands()
+- Ran nr update to regenerate meta.ts
+- Files changed: package.json, src/commands.ts, src/generated/meta.ts
+- **Learnings for future iterations:**
+  - Import visibility functions (isCategoryVisible, toggleCategoryVisibility, showAllCategories, hideAllCategories) from decorations.ts
+  - Use union types for quick pick value when mixing category values with special actions
+---

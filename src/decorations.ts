@@ -12,6 +12,32 @@ const gutterDecorationTypes: Map<CommentCategory, TextEditorDecorationType> = ne
 const inlineDecorationTypes: Map<CommentCategory, TextEditorDecorationType> = new Map()
 const backgroundDecorationTypes: Map<CommentCategory, TextEditorDecorationType> = new Map()
 
+const ALL_CATEGORIES: CommentCategory[] = ['bug', 'question', 'suggestion', 'nitpick', 'note']
+const categoryVisibility: Map<CommentCategory, boolean> = new Map(
+  ALL_CATEGORIES.map(category => [category, true]),
+)
+
+export function isCategoryVisible(category: CommentCategory): boolean {
+  return categoryVisibility.get(category) ?? true
+}
+
+export function toggleCategoryVisibility(category: CommentCategory): void {
+  const current = categoryVisibility.get(category) ?? true
+  categoryVisibility.set(category, !current)
+}
+
+export function showAllCategories(): void {
+  for (const category of ALL_CATEGORIES) {
+    categoryVisibility.set(category, true)
+  }
+}
+
+export function hideAllCategories(): void {
+  for (const category of ALL_CATEGORIES) {
+    categoryVisibility.set(category, false)
+  }
+}
+
 const DEFAULT_COLORS: Record<CommentCategory, string> = {
   bug: '#f44336',
   question: '#2196f3',
@@ -123,6 +149,11 @@ export async function updateDecorations(editor: TextEditor): Promise<void> {
 
   for (const comment of comments) {
     const category = comment.category
+
+    if (!isCategoryVisible(category)) {
+      continue
+    }
+
     if (!gutterDecorationsByCategory.has(category)) {
       gutterDecorationsByCategory.set(category, [])
       backgroundDecorationsByCategory.set(category, [])
