@@ -1,9 +1,18 @@
 # Ralph Progress - Terminal Profile Feature
 
-## Current Status
-Not started
+## Codebase Patterns
+- Use `pnpm run update` (or `nr update`) after modifying package.json configuration to regenerate src/generated/meta.ts
+- Config settings are typed via vscode-ext-gen in src/generated/meta.ts
 
 ## Completed Stories
-(none)
 
-## Notes
+## 2026-01-12 - US-001
+Thread: https://ampcode.com/threads/T-019bb1c7-072e-732b-8952-6b9a0f4ecc37
+- Added `seal-code.terminalProfile` setting with enum ["default", "tmux"]
+- Default value set to "default" (preserves existing VSCode terminal behavior)
+- Ran `nr update` to regenerate VSCode metadata in src/generated/meta.ts
+- Files changed: package.json, src/generated/meta.ts
+- **Learnings for future iterations:**
+  - The vscode-ext-gen tool auto-generates TypeScript types for all config settings
+  - New config appears as `configs.terminalProfile` with proper typing
+---
