@@ -4,6 +4,7 @@
 - Use `pnpm run update` (or `nr update`) after modifying package.json configuration to regenerate src/generated/meta.ts
 - Config settings are typed via vscode-ext-gen in src/generated/meta.ts
 - Type imports must come before value imports and be sorted alphabetically (perfectionist/sort-imports)
+- For testing files that import vscode, mock it with `vi.mock('vscode', ...)` and place imports before the vi.mock call (vitest hoists mocks automatically)
 
 ## Completed Stories
 
@@ -64,4 +65,17 @@ Thread: https://ampcode.com/threads/T-019bb1cc-8748-762a-ab32-04d5a780da61
   - Type imports must come before value imports and be sorted alphabetically (perfectionist/sort-imports)
   - Use `configs.terminalProfile.key` and `configs.terminalProfile.default` for type-safe config access
   - Window name sanitization: lowercase + replace non-alphanumeric with hyphens
+---
+
+## 2026-01-12 - US-006
+Thread: https://ampcode.com/threads/T-019bb1cf-a1a7-718d-b4c4-79370592cc4e
+- Created test/unit/terminalProfile.test.ts with 14 unit tests
+- Tests for getSessionName: prefix, lowercase, spaces, special chars, hyphen collapsing, trimming, empty string, special-chars-only
+- Tests for buildTmuxCommand: format, single quote escaping, multiple quotes, double quotes, complex real-world command
+- Mocked vscode module to allow tests to run
+- Files changed: test/unit/terminalProfile.test.ts
+- **Learnings for future iterations:**
+  - Must mock vscode module using `vi.mock('vscode', ...)` for testing files that import vscode
+  - Import the module under test BEFORE calling vi.mock to satisfy eslint import/first rule
+  - vitest hoists vi.mock calls automatically so import order is correct at runtime
 ---
