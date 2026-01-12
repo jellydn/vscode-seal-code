@@ -88,3 +88,41 @@ jobs:
 
       - name: Test
         run: nr test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set node
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - name: Build
+        run: nr build
+
+      - name: Set beta version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          SHORT_SHA=${GITHUB_SHA::7}
+          npx json -I -f package.json -e "this.version='${VERSION}-beta.${SHORT_SHA}'"
+
+      - name: Package Extension
+        run: nr ext:package --pre-release
+
+      - name: Upload VSIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: seal-code-vsix
+          path: '*.vsix'
