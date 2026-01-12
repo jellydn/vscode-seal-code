@@ -1,0 +1,96 @@
+{
+  "project": "SealCode",
+  "branchName": "ralph/terminal-profile",
+  "description": "Terminal Profile for Session Management - Run AI reviews in tmux with one session per workspace",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add terminal profile configuration setting",
+      "description": "As a user, I want to configure my preferred terminal profile so that all AI reviews run within my chosen session manager.",
+      "acceptanceCriteria": [
+        "Add `seal-code.terminalProfile` setting to package.json with enum: default, tmux",
+        "Default value is 'default' (current VSCode terminal behavior)",
+        "Run `nr update` to regenerate VSCode metadata",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Implemented in package.json lines 334-340"
+    },
+    {
+      "id": "US-002",
+      "title": "Create terminalProfile module with binary detection",
+      "description": "As a developer, I need a module to detect tmux availability and manage session names.",
+      "acceptanceCriteria": [
+        "Create src/terminalProfile.ts module",
+        "Add TerminalProfile type: 'default' | 'tmux'",
+        "Implement isTmuxAvailable() using 'which tmux' command",
+        "Implement getSessionName(workspaceName) returning 'sealcode-{sanitized-name}'",
+        "Sanitize workspace name: lowercase, replace spaces/special chars with hyphens",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Implemented in src/terminalProfile.ts"
+    },
+    {
+      "id": "US-003",
+      "title": "Implement tmux session execution",
+      "description": "As a user, I want AI reviews to run in a tmux session so I can manage multiple reviews in one place.",
+      "acceptanceCriteria": [
+        "Add buildTmuxCommand(sessionName, windowName, command) to terminalProfile.ts",
+        "Use format: tmux new-session -A -s {session} -n {window} -d && tmux send-keys -t {session}:{window} '{command}' Enter && tmux attach -t {session}",
+        "Window name derived from template name and AI tool",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Implemented in src/terminalProfile.ts lines 29-32"
+    },
+    {
+      "id": "US-004",
+      "title": "Handle missing tmux with fallback prompt",
+      "description": "As a user, I want to be prompted to use default terminal when tmux is not installed.",
+      "acceptanceCriteria": [
+        "Add promptForFallback() showing quick pick when tmux unavailable",
+        "Quick pick options: 'Use Default Terminal', 'Cancel'",
+        "Returns 'default' or undefined if cancelled",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Implemented in src/terminalProfile.ts lines 34-46"
+    },
+    {
+      "id": "US-005",
+      "title": "Integrate terminal profile into executeAIReview",
+      "description": "As a user, I want the AI review command to use my configured terminal profile.",
+      "acceptanceCriteria": [
+        "Read terminalProfile setting in executeAIReview function",
+        "If profile is 'default', use existing terminal creation logic",
+        "If profile is 'tmux', check availability and build wrapped command",
+        "If tmux unavailable, call promptForFallback",
+        "Execute the final command in VSCode terminal",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Implemented in src/commands.ts lines 808-826"
+    },
+    {
+      "id": "US-006",
+      "title": "Add unit tests for terminalProfile module",
+      "description": "As a developer, I need tests to verify terminal profile logic.",
+      "acceptanceCriteria": [
+        "Create test/unit/terminalProfile.test.ts",
+        "Test getSessionName sanitizes workspace names correctly",
+        "Test buildTmuxCommand generates correct command format",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "14 tests passing in test/unit/terminalProfile.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+# Ralph Progress - Terminal Profile Feature
+
+## Codebase Patterns
+- Use `pnpm run update` (or `nr update`) after modifying package.json configuration to regenerate src/generated/meta.ts
+- Config settings are typed via vscode-ext-gen in src/generated/meta.ts
+- Type imports must come before value imports and be sorted alphabetically (perfectionist/sort-imports)
+- For testing files that import vscode, mock it with `vi.mock('vscode', ...)` and place imports before the vi.mock call (vitest hoists mocks automatically)
+
+## Completed Stories
+
+## 2026-01-12 - US-001
+Thread: https://ampcode.com/threads/T-019bb1c7-072e-732b-8952-6b9a0f4ecc37
+- Added `seal-code.terminalProfile` setting with enum ["default", "tmux"]
+- Default value set to "default" (preserves existing VSCode terminal behavior)
+- Ran `nr update` to regenerate VSCode metadata in src/generated/meta.ts
+- Files changed: package.json, src/generated/meta.ts
+- **Learnings for future iterations:**
+  - The vscode-ext-gen tool auto-generates TypeScript types for all config settings
+  - New config appears as `configs.terminalProfile` with proper typing
+---
+
+## 2026-01-12 - US-002
+Thread: https://ampcode.com/threads/T-019bb1c8-bda7-756b-88d3-fc1b94c7de87
+- Created src/terminalProfile.ts module with TerminalProfile type
+- Implemented isTmuxAvailable() using 'which tmux' with promisified exec
+- Implemented getSessionName() with sanitization: lowercase, replace special chars with hyphens, trim hyphens
+- Files changed: src/terminalProfile.ts
+- **Learnings for future iterations:**
+  - Use `node:child_process` and `node:util` Node protocol imports
+  - Promisify exec for async/await usage
+  - Sanitization pattern: lowercase -> replace non-alphanumeric with hyphens -> collapse multiple hyphens -> trim leading/trailing hyphens
+---
+
+## 2026-01-12 - US-003
+Thread: https://ampcode.com/threads/T-019bb1c9-f22d-72d8-8c8b-642a6ca6a8c4
+- Added buildTmuxCommand(sessionName, windowName, command) to terminalProfile.ts
+- Command format: tmux new-session -A -s {session} -n {window} -d && tmux send-keys -t {session}:{window} '{command}' Enter && tmux attach -t {session}
+- Added single-quote escaping for command safety (replace ' with '\'' pattern)
+- Files changed: src/terminalProfile.ts
+- **Learnings for future iterations:**
+  - Escape single quotes in shell commands using the '\'' pattern (end quote, escaped quote, start quote)
+  - tmux -A flag attaches to existing session or creates new one (idempotent)
+---
+
+## 2026-01-12 - US-004
+Thread: https://ampcode.com/threads/T-019bb1cb-3d2b-744e-8f73-c37584c88a77
+- Added promptForFallback() function to terminalProfile.ts
+- Shows quick pick with 'Use Default Terminal' and 'Cancel' options
+- Returns 'default' or undefined if cancelled
+- Files changed: src/terminalProfile.ts
+- **Learnings for future iterations:**
+  - Use vscode window.showQuickPick with object items containing label and value
+  - Return type can include undefined for cancelled actions
+---
+
+## 2026-01-12 - US-005
+Thread: https://ampcode.com/threads/T-019bb1cc-8748-762a-ab32-04d5a780da61
+- Integrated terminal profile into executeAIReview function in src/commands.ts
+- Reads terminalProfile setting from config
+- For 'tmux' profile: checks availability, prompts for fallback if unavailable
+- Builds tmux wrapped command with session and window names derived from workspace and template
+- Default behavior unchanged when profile is 'default'
+- Files changed: src/commands.ts
+- **Learnings for future iterations:**
+  - Type imports must come before value imports and be sorted alphabetically (perfectionist/sort-imports)
+  - Use `configs.terminalProfile.key` and `configs.terminalProfile.default` for type-safe config access
+  - Window name sanitization: lowercase + replace non-alphanumeric with hyphens
+---
+
+## 2026-01-12 - US-006
+Thread: https://ampcode.com/threads/T-019bb1cf-a1a7-718d-b4c4-79370592cc4e
+- Created test/unit/terminalProfile.test.ts with 14 unit tests
+- Tests for getSessionName: prefix, lowercase, spaces, special chars, hyphen collapsing, trimming, empty string, special-chars-only
+- Tests for buildTmuxCommand: format, single quote escaping, multiple quotes, double quotes, complex real-world command
+- Mocked vscode module to allow tests to run
+- Files changed: test/unit/terminalProfile.test.ts
+- **Learnings for future iterations:**
+  - Must mock vscode module using `vi.mock('vscode', ...)` for testing files that import vscode
+  - Import the module under test BEFORE calling vi.mock to satisfy eslint import/first rule
+  - vitest hoists vi.mock calls automatically so import order is correct at runtime
+---

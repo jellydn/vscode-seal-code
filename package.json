@@ -330,6 +330,12 @@
           "type": "boolean",
           "default": false,
           "description": "Show quick pick menu for AI tool selection before sending to AI"
+        },
+        "seal-code.terminalProfile": {
+          "type": "string",
+          "enum": ["default", "tmux"],
+          "default": "default",
+          "description": "Terminal profile to use for AI reviews. 'default' uses VSCode terminal, 'tmux' runs in a tmux session per workspace."
         }
       }
     }

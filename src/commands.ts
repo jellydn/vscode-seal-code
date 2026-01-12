@@ -1,4 +1,5 @@
 import type { Terminal } from 'vscode'
+import type { TerminalProfile } from './terminalProfile'
 import type { Comment, CommentCategory } from './types'
 import * as path from 'node:path'
 import { commands, Position, Range, Selection, Uri, window, workspace } from 'vscode'
@@ -15,6 +16,7 @@ import {
   showCommentUpdatedMessage,
 } from './messages'
 import { getCodeReviewDir } from './storage'
+import { buildTmuxCommand, getSessionName, isTmuxAvailable, promptForFallback } from './terminalProfile'
 import { getTreeDataProvider, refreshTreeView } from './treeView'
 
 interface CommentItemLike {
@@ -802,10 +804,32 @@ async function executeAIReview(comments: Comment[], context: string = ''): Promi
   const command = buildAICommand(aiTool, aiToolCommand, prompt)
 
   const terminalName = generateTerminalName(templateName, aiTool)
+
+  let terminalProfile = config.get<TerminalProfile>(configs.terminalProfile.key, configs.terminalProfile.default as TerminalProfile)
+
+  if (terminalProfile === 'tmux') {
+    const tmuxAvailable = await isTmuxAvailable()
+    if (!tmuxAvailable) {
+      const fallback = await promptForFallback()
+      if (!fallback) {
+        return
+      }
+      terminalProfile = fallback
+    }
+  }
+
+  let finalCommand = command
+  if (terminalProfile === 'tmux') {
+    const workspaceName = workspace.workspaceFolders?.[0]?.name ?? 'workspace'
+    const sessionName = getSessionName(workspaceName)
+    const windowName = `${templateName ?? 'review'}-${aiTool ?? 'ai'}`.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+    finalCommand = buildTmuxCommand(sessionName, windowName, command)
+  }
+
   const terminal = window.createTerminal(terminalName)
   terminal.show()
 
-  await sendCommandToTerminal(terminal, command)
+  await sendCommandToTerminal(terminal, finalCommand)
 
   showCommentsSentMessage(comments.length, context)
 }
