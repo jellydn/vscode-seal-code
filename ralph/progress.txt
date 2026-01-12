@@ -28,3 +28,14 @@ Thread: https://ampcode.com/threads/T-019bb1c8-bda7-756b-88d3-fc1b94c7de87
   - Promisify exec for async/await usage
   - Sanitization pattern: lowercase -> replace non-alphanumeric with hyphens -> collapse multiple hyphens -> trim leading/trailing hyphens
 ---
+
+## 2026-01-12 - US-003
+Thread: https://ampcode.com/threads/T-019bb1c9-f22d-72d8-8c8b-642a6ca6a8c4
+- Added buildTmuxCommand(sessionName, windowName, command) to terminalProfile.ts
+- Command format: tmux new-session -A -s {session} -n {window} -d && tmux send-keys -t {session}:{window} '{command}' Enter && tmux attach -t {session}
+- Added single-quote escaping for command safety (replace ' with '\'' pattern)
+- Files changed: src/terminalProfile.ts
+- **Learnings for future iterations:**
+  - Escape single quotes in shell commands using the '\'' pattern (end quote, escaped quote, start quote)
+  - tmux -A flag attaches to existing session or creates new one (idempotent)
+---

@@ -1,5 +1,6 @@
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
+import { window } from 'vscode'
 
 const execAsync = promisify(exec)
 
@@ -28,4 +29,18 @@ export function getSessionName(workspaceName: string): string {
 export function buildTmuxCommand(sessionName: string, windowName: string, command: string): string {
   const escapedCommand = command.replace(/'/g, `'\\''`)
   return `tmux new-session -A -s ${sessionName} -n ${windowName} -d && tmux send-keys -t ${sessionName}:${windowName} '${escapedCommand}' Enter && tmux attach -t ${sessionName}`
+}
+
+export async function promptForFallback(): Promise<TerminalProfile | undefined> {
+  const selection = await window.showQuickPick(
+    [
+      { label: 'Use Default Terminal', value: 'default' as const },
+      { label: 'Cancel', value: undefined },
+    ],
+    {
+      placeHolder: 'tmux is not available. Choose an alternative:',
+    },
+  )
+
+  return selection?.value
 }
