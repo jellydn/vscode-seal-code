@@ -3,6 +3,7 @@
 ## Codebase Patterns
 - Use `pnpm run update` (or `nr update`) after modifying package.json configuration to regenerate src/generated/meta.ts
 - Config settings are typed via vscode-ext-gen in src/generated/meta.ts
+- Type imports must come before value imports and be sorted alphabetically (perfectionist/sort-imports)
 
 ## Completed Stories
 
@@ -49,4 +50,18 @@ Thread: https://ampcode.com/threads/T-019bb1cb-3d2b-744e-8f73-c37584c88a77
 - **Learnings for future iterations:**
   - Use vscode window.showQuickPick with object items containing label and value
   - Return type can include undefined for cancelled actions
+---
+
+## 2026-01-12 - US-005
+Thread: https://ampcode.com/threads/T-019bb1cc-8748-762a-ab32-04d5a780da61
+- Integrated terminal profile into executeAIReview function in src/commands.ts
+- Reads terminalProfile setting from config
+- For 'tmux' profile: checks availability, prompts for fallback if unavailable
+- Builds tmux wrapped command with session and window names derived from workspace and template
+- Default behavior unchanged when profile is 'default'
+- Files changed: src/commands.ts
+- **Learnings for future iterations:**
+  - Type imports must come before value imports and be sorted alphabetically (perfectionist/sort-imports)
+  - Use `configs.terminalProfile.key` and `configs.terminalProfile.default` for type-safe config access
+  - Window name sanitization: lowercase + replace non-alphanumeric with hyphens
 ---
