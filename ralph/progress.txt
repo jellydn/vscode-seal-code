@@ -39,3 +39,14 @@ Thread: https://ampcode.com/threads/T-019bb1c9-f22d-72d8-8c8b-642a6ca6a8c4
   - Escape single quotes in shell commands using the '\'' pattern (end quote, escaped quote, start quote)
   - tmux -A flag attaches to existing session or creates new one (idempotent)
 ---
+
+## 2026-01-12 - US-004
+Thread: https://ampcode.com/threads/T-019bb1cb-3d2b-744e-8f73-c37584c88a77
+- Added promptForFallback() function to terminalProfile.ts
+- Shows quick pick with 'Use Default Terminal' and 'Cancel' options
+- Returns 'default' or undefined if cancelled
+- Files changed: src/terminalProfile.ts
+- **Learnings for future iterations:**
+  - Use vscode window.showQuickPick with object items containing label and value
+  - Return type can include undefined for cancelled actions
+---
