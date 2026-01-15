@@ -348,7 +348,7 @@
     "ext:publish": "vsxpub --no-dependencies"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.7.3",
+    "@antfu/eslint-config": "^7.0.0",
     "@antfu/ni": "^28.0.0",
     "@types/node": "^25.0.3",
     "@types/vscode": "^1.97.0",
