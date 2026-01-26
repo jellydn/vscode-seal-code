@@ -4,7 +4,7 @@
   "displayName": "SealCode - Smart Code Review",
   "version": "0.3.3",
   "private": true,
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.28.2",
   "description": "",
   "author": "Huynh Duc Dung <dung@productsway.com>",
   "license": "MIT",
