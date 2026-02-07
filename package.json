@@ -354,7 +354,7 @@
     "@types/vscode": "^1.97.0",
     "@vscode/vsce": "^3.7.1",
     "bumpp": "^10.3.2",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "ovsx": "^0.10.7",
     "reactive-vscode": "^1.0.0-beta.2",
     "taze": "^19.9.2",
