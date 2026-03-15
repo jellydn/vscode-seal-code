@@ -353,7 +353,7 @@
     "@types/node": "^25.0.3",
     "@types/vscode": "^1.97.0",
     "@vscode/vsce": "^3.7.1",
-    "bumpp": "^10.3.2",
+    "bumpp": "^11.0.0",
     "eslint": "^9.39.2",
     "ovsx": "^0.10.7",
     "reactive-vscode": "^1.0.0-beta.2",
